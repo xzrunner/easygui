@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\cpputil\platform\msvc\projects\cpputil.vcxproj">
+      <Project>{bbf1c418-2ee6-4059-bad6-be93a7ce5b90}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\guard\platform\msvc\projects\guard.vcxproj">
+      <Project>{cc45ae0e-8c51-4759-9614-8bc321c565a0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\logger\platform\msvc\projects\logger.vcxproj">
+      <Project>{4031b66e-39a3-401e-918a-e1424a4af944}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\painting0\platform\msvc\projects\painting0.vcxproj">
+      <Project>{ac2cad0c-553d-4fb9-a1a8-c206e59e021a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\painting2\platform\msvc\projects\painting2.vcxproj">
+      <Project>{18829913-b301-424c-8cd8-d95773038029}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\primitive\platform\msvc\projects\primitive.vcxproj">
+      <Project>{6cf78ba8-18da-48a8-a7de-c766f32b7a2d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\rendergraph\platform\msvc\projects\rendergraph.vcxproj">
+      <Project>{52480c29-042f-4f4c-9690-88ef0eef494e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\shaderweaver\platform\msvc\projects\shaderweaver.vcxproj">
+      <Project>{cb558c48-c50c-433b-acf6-4ab1c306a11a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\sm\platform\msvc\projects\sm.vcxproj">
+      <Project>{81630e0d-e1ef-4837-a0ee-30435ed4fe59}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\tessellation\platform\msvc\projects\tessellation.vcxproj">
+      <Project>{ab13923f-a55d-4366-8587-677733707c60}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\unirender\platform\msvc\projects\unirender.vcxproj">
+      <Project>{637a0e9c-1867-459d-8611-65a064e3b2c2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="easygui.vcxproj">
+      <Project>{ca94b934-9855-4a8e-89d7-bea7602a2f42}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\test\main.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>5.egui_test</ProjectName>
+    <ProjectGuid>{DA1AABE8-0C92-48F1-9DFA-45C2F6A03D60}</ProjectGuid>
+    <RootNamespace>egui_test</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.26730.12</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\egui_test\x86\Debug\</OutDir>
+    <IntDir>..\egui_test\x86\Debug\obj\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\egui_test\x86\Release\</OutDir>
+    <IntDir>..\egui_test\x86\Release\obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\unirender\include;..\..\..\..\rendergraph\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3d.lib;OpenGL32.lib;glew32sd.lib;libboost_filesystem-vc140-mt-gd-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\unirender\include;..\..\..\..\rendergraph\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;OpenGL32.lib;glew32s.lib;libboost_filesystem-vc140-mt-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\Button.cpp">
+      <Filter>widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Window.cpp">
+      <Filter>widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Slider.cpp">
+      <Filter>widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Utility.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Callback.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderStyle.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EntityFactory.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\GuiState.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\System.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ImGui.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderBuffer.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\easygui\Window.h">
+      <Filter>widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Button.h">
+      <Filter>widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Slider.h">
+      <Filter>widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Entity.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Utility.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Callback.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\typedef.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\InputEvent.h">
+      <Filter>dataset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\RenderStyle.h">
+      <Filter>dataset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\CompType.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\CompStorage.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\EntityFactory.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\GuiState.h">
+      <Filter>dataset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\System.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\ImGui.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\RenderBuffer.h">
+      <Filter>dataset</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="widgets">
+      <UniqueIdentifier>{993305d0-9e20-484e-84a7-a705cfae869d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs">
+      <UniqueIdentifier>{f10ad83f-1fbe-4dd6-98e3-234434fd812a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{90b0b551-e909-47f8-a38e-99c0a23affe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset">
+      <UniqueIdentifier>{64a69e00-96de-4df5-96ef-d1bf7df44e61}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

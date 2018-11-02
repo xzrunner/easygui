@@ -1,18 +1,27 @@
-//#include <glp_loop.h>
-
 #include <easygui/Utility.h>
 #include <easygui/GuiState.h>
 #include <easygui/RenderStyle.h>
 #include <easygui/RenderBuffer.h>
 #include <easygui/ImGui.h>
+#include <easygui/Callback.h>
 
+#include <glp_loop.h>
 #include <unirender/Blackboard.h>
 #include <unirender/gl/RenderContext.h>
+#include <tessellation/Palette.h>
+#include <tessellation/Painter.h>
 #include <rendergraph/RenderMgr.h>
 #include <rendergraph/SpriteRenderer.h>
+#include <rendergraph/Callback.h>
 #include <painting0/Shader.h>
 #include <painting2/WindowContext.h>
 #include <painting2/Blackboard.h>
+#include <painting2/Textbox.h>
+#include <painting2/RenderContext.h>
+#include <facade/GTxt.h>
+#include <facade/DTex.h>
+#include <facade/Facade.h>
+#include <facade/LoadingList.h>
 
 #include <gl/glew.h>
 #include <glfw3.h>
@@ -30,9 +39,26 @@ const int HEIGHT = 768;
 
 GLFWwindow* WND = nullptr;
 
-egui::GuiState      state;
-egui::RenderStyle   style;
-egui::RenderBuffer  rb;
+egui::GuiState      STATE;
+egui::RenderStyle   STYLE;
+egui::RenderBuffer  RBUF;
+
+pt2::Textbox TEXTBOX;
+
+enum TexType
+{
+	PALETTE,
+	LABEL,
+	TEX_COUNT,
+};
+struct Texture
+{
+	int id;
+	size_t w, h;
+};
+std::array<Texture, TEX_COUNT> TEXTURES;
+
+int CURR_TEXID = -1;
 
 sm::vec2 screen2proj(float x, float y)
 {
@@ -59,17 +85,17 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
 	{
 		if (action == GLFW_PRESS) {
-			egui::feed_event(state, egui::InputEvent(egui::InputType::MOUSE_LEFT_DOWN, x, y));
+			egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_LEFT_DOWN, x, y));
 		} else if (action == GLFW_RELEASE) {
-			egui::feed_event(state, egui::InputEvent(egui::InputType::MOUSE_LEFT_UP, x, y));
+			egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_LEFT_UP, x, y));
 		}
 	}
 	else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 	{
 		if (action == GLFW_PRESS) {
-			egui::feed_event(state, egui::InputEvent(egui::InputType::MOUSE_RIGHT_DOWN, x, y));
+			egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_RIGHT_DOWN, x, y));
 		} else if (action == GLFW_RELEASE) {
-			egui::feed_event(state, egui::InputEvent(egui::InputType::MOUSE_RIGHT_UP, x, y));
+			egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_RIGHT_UP, x, y));
 		}
 	}
 }
@@ -85,9 +111,9 @@ static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
 	int y = static_cast<int>(proj.y);
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS ||
 		glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-		egui::feed_event(state, egui::InputEvent(egui::InputType::MOUSE_DRAG, x, y));
+		egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_DRAG, x, y));
 	} else {
-		egui::feed_event(state, egui::InputEvent(egui::InputType::MOUSE_MOVE, x, y));
+		egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_MOVE, x, y));
 	}
 }
 
@@ -140,49 +166,210 @@ void init_render()
 	});
 	ur::Blackboard::Instance()->SetRenderContext(ur_rc);
 
-	auto wc = std::make_shared<pt2::WindowContext>(WIDTH, HEIGHT, 0, 0);
+	pt2::Blackboard::Instance()->SetRenderContext(std::make_shared<pt2::RenderContext>());
+
+	auto wc = std::make_shared<pt2::WindowContext>(WIDTH, HEIGHT, WIDTH, HEIGHT);
 	pt2::Blackboard::Instance()->SetWindowContext(wc);
-	rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	auto sr = std::static_pointer_cast<rg::SpriteRenderer>(
+		rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE)
+	);
 	wc->Bind();
 
-	auto sr = std::static_pointer_cast<rg::SpriteRenderer>(rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE));
+	auto& palette = sr->GetPalette();
+	TEXTURES[TexType::PALETTE].id = palette.GetTexID();
+	TEXTURES[TexType::PALETTE].w  = palette.GetTexWidth();
+	TEXTURES[TexType::PALETTE].h  = palette.GetTexHeight();
+
+	auto& label = TEXTURES[TexType::LABEL];
+	facade::DTex::Instance()->GetGlyphTexInfo(label.id, label.w, label.h);
+
+	CURR_TEXID = palette.GetTexID();
+
 	auto shader = sr->GetShader();
 	shader->Use();
 	shader->SetMat4("u_model", sm::mat4().x);
-	ur_rc->BindTexture(sr->GetPaletteTexID(), 0);
 
-	egui::style_colors_dark(style);
+	egui::style_colors_dark(STYLE);
+
+	// rendergraph callback
+	rg::Callback::Funs rg_cb;
+	rg_cb.query_cached_tex_quad = [](size_t tex_id, const sm::irect& r, int& out_tex_id)->const float* {
+		sx::UID uid = sx::ResourceUID::TexQuad(tex_id, r.xmin, r.ymin, r.xmax, r.ymax);
+		int block_id;
+		return facade::DTex::Instance()->QuerySymbol(uid, out_tex_id, block_id);
+	};
+	rg_cb.add_cache_symbol = [](size_t tex_id, int tex_w, int tex_h, const sm::irect& r) {
+		sx::UID uid = sx::ResourceUID::TexQuad(tex_id, r.xmin, r.ymin, r.xmax, r.ymax);
+		facade::LoadingList::Instance()->AddSymbol(uid, tex_id, tex_w, tex_h, r);
+	};
+	rg::Callback::RegisterCallback(rg_cb);
+
+	// egui callback
+	TEXTBOX.font_size = STYLE.font_sz;
+	TEXTBOX.align_vert = pt2::Textbox::VA_CENTER;
+	auto filtpath = "assets\\default2.ttf";
+	facade::GTxt::Instance()->LoadFonts({ { "default", filtpath } }, { {} });
+	egui::Callback::Funs cb;
+	cb.get_label_sz = [](const char* label)->sm::vec2 {
+		return facade::GTxt::Instance()->CalcLabelSize(label, TEXTBOX);
+	};
+	cb.draw_label = [](const char* label, const sm::vec2& pos, uint32_t color, tess::Painter& pt)
+	{
+		sm::Matrix2D mat;
+		mat.Translate(pos.x + TEXTBOX.width * 0.5f, pos.y);
+
+		pt2::Color col;
+		col.FromABGR(color);
+
+		facade::GTxt::Instance()->Draw(label, TEXTBOX, mat, col, pt2::Color(0, 0, 0), 0, false, &pt, false);
+	};
+	cb.relocate_texcoords = [](tess::Painter& pt)
+	{
+		auto relocate_palette = [](const Texture& tex, tess::Painter::Buffer& buf, int begin, int end)
+		{
+			assert(begin < end);
+			sm::irect qr(0, 0, tex.w, tex.h);
+			int cached_texid;
+			auto cached_texcoords = rg::Callback::QueryCachedTexQuad(tex.id, qr, cached_texid);
+			if (cached_texcoords)
+			{
+				CURR_TEXID = cached_texid;
+				float x = cached_texcoords[0];
+				float y = cached_texcoords[1];
+				float w = cached_texcoords[2] - cached_texcoords[0];
+				float h = cached_texcoords[5] - cached_texcoords[1];
+
+				auto v_ptr = &buf.vertices[begin];
+				for (size_t i = 0, n = end - begin + 1; i < n; ++i)
+				{
+					auto& v = *v_ptr++;
+					v.uv.x = x + w * v.uv.x;
+					v.uv.y = y + h * v.uv.y;
+				}
+			}
+			else
+			{
+				rg::Callback::AddCacheSymbol(tex.id, tex.w, tex.h, qr);
+			}
+		};
+		auto relocate_label = [](const Texture& tex, tess::Painter::Buffer& buf, int begin, int end)
+		{
+			assert((end - begin + 1) % 4 == 0);
+			for (int i = begin; i < end; i += 4)
+			{
+				auto min = buf.vertices[i].uv;
+				auto max = buf.vertices[i + 2].uv;
+
+				sm::rect r;
+				r.xmin = tex.w * min.x;
+				r.xmax = tex.w * max.x;
+				r.ymin = tex.h * min.y;
+				r.ymax = tex.h * max.y;
+
+				sm::irect qr;
+				qr.xmin = tex.w * min.x;
+				qr.xmax = tex.w * max.x;
+				qr.ymin = tex.h * min.y;
+				qr.ymax = tex.h * max.y;
+
+				int cached_texid;
+				auto cached_texcoords = rg::Callback::QueryCachedTexQuad(tex.id, qr, cached_texid);
+				if (cached_texcoords)
+				{
+					CURR_TEXID = cached_texid;
+					auto v_ptr = &buf.vertices[i];
+					v_ptr[0].uv.x = cached_texcoords[0];
+					v_ptr[0].uv.y = cached_texcoords[1];
+					v_ptr[1].uv.x = cached_texcoords[2];
+					v_ptr[1].uv.y = cached_texcoords[3];
+					v_ptr[2].uv.x = cached_texcoords[4];
+					v_ptr[2].uv.y = cached_texcoords[5];
+					v_ptr[3].uv.x = cached_texcoords[6];
+					v_ptr[3].uv.y = cached_texcoords[7];
+				}
+				else
+				{
+					rg::Callback::AddCacheSymbol(tex.id, tex.w, tex.h, qr);
+				}
+			}
+		};
+
+		auto& buf = const_cast<tess::Painter::Buffer&>(pt.GetBuffer());
+		if (buf.vertices.empty()) {
+			return;
+		}
+
+		auto& regions = pt.GetOtherTexRegion();
+		if (regions.empty())
+		{
+			relocate_palette(TEXTURES[TexType::PALETTE], buf, 0, buf.vertices.size() - 1);
+		}
+		else
+		{
+			auto& palette = TEXTURES[TexType::PALETTE];
+			auto& label   = TEXTURES[TexType::LABEL];
+			if (regions.front().begin > 0) {
+				relocate_palette(palette, buf, 0, regions.front().begin - 1);
+			}
+			for (int i = 0, n = regions.size(); i < n; ++i)
+			{
+				auto& r = regions[i];
+				if (i > 0) {
+					auto& prev = regions[i - 1];
+					if (prev.end + 1 < r.begin) {
+						relocate_palette(palette, buf, prev.end + 1, r.begin - 1);
+					}
+				}
+				assert(r.texid == label.id);
+				relocate_label(label, buf, r.begin, r.end);
+			}
+			if (regions.back().end < buf.vertices.size() - 1) {
+				relocate_palette(palette, buf, regions.back().end + 1, buf.vertices.size() - 1);
+			}
+		}
+	};
+	egui::Callback::RegisterCallback(cb);
 }
 
 void draw()
 {
-	rb.Rewind();
+	static bool last_frame_dirty = false;
+
+	auto sr = std::static_pointer_cast<rg::SpriteRenderer>(rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE));
+	ur::Blackboard::Instance()->GetRenderContext().BindTexture(CURR_TEXID, 0);
+
+	RBUF.Rewind();
 
 	uint32_t uid = 1;
-	if (egui::button(uid++, 200, 300, 100, 50, state, style, rb)) {
+	if (egui::button(uid++, "btn0", 200, 300, 100, 50, STATE, STYLE, RBUF, last_frame_dirty)) {
 		std::cout << "on click one" << '\n';
 	}
-	if (egui::button(uid++, 50, 300, 100, 50, state, style, rb)) {
+	if (egui::button(uid++, "btn1", 50, 300, 100, 50, STATE, STYLE, RBUF, last_frame_dirty)) {
 		std::cout << "on click two" << '\n';
 	}
 
 	static float sval0 = 0;
-	if (egui::slider(uid++, &sval0, 100, 40, 255, 255, state, style, rb)) {
+	if (egui::slider(uid++, &sval0, 100, -40, 255, 255, STATE, STYLE, RBUF, last_frame_dirty)) {
 		printf("slider 0: %f\n", sval0);
 	}
 
 	static float sval1 = 0;
-	if (egui::slider(uid++, &sval1, 150, 40, 255, 63, state, style, rb)) {
+	if (egui::slider(uid++, &sval1, 150, -40, 255, 63, STATE, STYLE, RBUF, last_frame_dirty)) {
 		printf("slider 1: %f\n", sval1);
 	}
 
 	static float sval2 = 0;
-	if (egui::slider(uid++, &sval2, 200, 40, 255, 15, state, style, rb)) {
+	if (egui::slider(uid++, &sval2, 200, -40, 255, 15, STATE, STYLE, RBUF, last_frame_dirty)) {
 		printf("slider 2: %f\n", sval2);
 	}
 
-	rb.InitVAO();
-	rb.Draw();
+	RBUF.InitVAO();
+	RBUF.Draw();
+
+	last_frame_dirty = facade::Facade::Instance()->Flush(false);
+	rg::RenderMgr::Instance()->Flush();
+
+//	facade::DTex::Instance()->DebugDraw();
 }
 
 }
@@ -192,14 +379,15 @@ int main()
 	init_glfw();
 	init_render();
 
-//	glp_loop_init(30);
+	glp_loop_init(30);
 
 	while (!glfwWindowShouldClose(WND))
 	{
-//		glp_loop_update();
+		glp_loop_update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+//		glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+		glClearColor(0, 0, 0, 1.0f);
 
 		draw();
 

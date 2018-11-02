@@ -11,14 +11,74 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\anim\platform\msvc\projects\anim.vcxproj">
+      <Project>{8f1c8db8-6b46-40c8-9acf-e6ad237e47d4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\bs\platform\msvc\projects\bs.vcxproj">
+      <Project>{f5e6ae49-23dc-421b-ad33-c422e8590520}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\cpputil\platform\msvc\projects\cpputil.vcxproj">
       <Project>{bbf1c418-2ee6-4059-bad6-be93a7ce5b90}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\ds\platform\msvc\projects\ds.vcxproj">
+      <Project>{e6044d31-8304-4854-99ac-cbef18b9e7d3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\dtex2\platform\msvc\projects\dtex2.vcxproj">
+      <Project>{a502c49c-7014-4d77-8bd9-b3f917ad34b0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\emitter\platform\msvc\projects\emitter.vcxproj">
+      <Project>{dbef5985-8371-4d60-bde1-0cd58f8017f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\facade\platform\msvc\projects\facade.vcxproj">
+      <Project>{2370b721-44d7-4c75-82a3-0da31b485cf0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\fs\platform\msvc\projects\fs.vcxproj">
+      <Project>{09c39b9e-27f5-4b39-9829-2815fd1c5469}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\gimg\platform\msvc\projects\gimg.vcxproj">
+      <Project>{d1acc0be-3a2b-450f-a708-f3e84df5e5ad}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\glp\platform\msvc\projects\glp.vcxproj">
+      <Project>{ca120fa2-89a7-4957-a4a5-4746972aa39f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\gtxt\platform\msvc\projects\gtxt.vcxproj">
+      <Project>{eb4f1ee0-cb3b-4b2e-9655-a8e22f948575}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\guard\platform\msvc\projects\guard.vcxproj">
       <Project>{cc45ae0e-8c51-4759-9614-8bc321c565a0}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\halfedge\platform\msvc\projects\halfedge.vcxproj">
+      <Project>{d9b1b541-5bcc-4a5f-8a7a-2ced3cead3dd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\js\platform\msvc\projects\js.vcxproj">
+      <Project>{68c18da9-79bb-43a5-9e0c-79740aea954b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\lexer\platform\msvc\projects\lexer.vcxproj">
+      <Project>{7719a1d1-af73-4e1d-bd99-e9b706195639}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\logger\platform\msvc\projects\logger.vcxproj">
       <Project>{4031b66e-39a3-401e-918a-e1424a4af944}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\memmgr\platform\msvc\projects\memmgr.vcxproj">
+      <Project>{5ffa0de4-1489-4267-8a79-52decc2d0351}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\model\platform\msvc\projects\model.vcxproj">
+      <Project>{4aba57ff-958f-4077-9010-b25fc862469b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\moon\platform\msvc\projects\moon.vcxproj">
+      <Project>{9fb05942-dcae-4a6f-8f99-86e20de9dfcc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\node0\platform\msvc\projects\node0.vcxproj">
+      <Project>{7f41d3ce-ef51-43b9-a6ac-8c3df4894430}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\node2\platform\msvc\projects\node2.vcxproj">
+      <Project>{88574804-351f-4308-bd45-e33f503fdd70}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\node3\platform\msvc\projects\node3.vcxproj">
+      <Project>{6030cf6b-1a8b-421b-92ce-4eb965751636}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\nserializer\platform\msvc\projects\nserializer.vcxproj">
+      <Project>{8b91994c-018b-4664-b615-a1eac669ca5c}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\painting0\platform\msvc\projects\painting0.vcxproj">
       <Project>{ac2cad0c-553d-4fb9-a1a8-c206e59e021a}</Project>
@@ -29,8 +89,17 @@
     <ProjectReference Include="..\..\..\..\primitive\platform\msvc\projects\primitive.vcxproj">
       <Project>{6cf78ba8-18da-48a8-a7de-c766f32b7a2d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\ps\platform\msvc\projects\ps.vcxproj">
+      <Project>{ee2229a3-ad5f-46e7-afab-729f8aa18036}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\quake\platform\msvc\projects\quake.vcxproj">
+      <Project>{e12e3322-1408-4380-8219-659c02b2020c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\rendergraph\platform\msvc\projects\rendergraph.vcxproj">
       <Project>{52480c29-042f-4f4c-9690-88ef0eef494e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\serializerx\platform\msvc\projects\serializerx.vcxproj">
+      <Project>{e8c6ffa3-644e-45c9-be61-8633db5202f9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\shaderweaver\platform\msvc\projects\shaderweaver.vcxproj">
       <Project>{cb558c48-c50c-433b-acf6-4ab1c306a11a}</Project>
@@ -38,8 +107,14 @@
     <ProjectReference Include="..\..\..\..\sm\platform\msvc\projects\sm.vcxproj">
       <Project>{81630e0d-e1ef-4837-a0ee-30435ed4fe59}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\stat\platform\msvc\projects\stat.vcxproj">
+      <Project>{16868cde-6def-4136-8cc8-75212f34462e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\tessellation\platform\msvc\projects\tessellation.vcxproj">
       <Project>{ab13923f-a55d-4366-8587-677733707c60}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\texpack\platform\msvc\projects\texpack.vcxproj">
+      <Project>{a7737c76-5221-47a5-86b7-84bd56c47730}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\unirender\platform\msvc\projects\unirender.vcxproj">
       <Project>{637a0e9c-1867-459d-8611-65a064e3b2c2}</Project>
@@ -94,7 +169,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\unirender\include;..\..\..\..\rendergraph\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\glp\src\glp;..\..\..\..\sm\src\sm;..\..\..\..\gtxt\src\gtxt;..\..\..\..\unirender\include;..\..\..\..\tessellation\include;..\..\..\..\rendergraph\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\dtex2\include;..\..\..\..\serializerx\include;..\..\..\..\facade\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -104,15 +179,15 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3d.lib;OpenGL32.lib;glew32sd.lib;libboost_filesystem-vc140-mt-gd-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib;..\..\..\..\external\lua\lib;..\..\..\..\external\freetype\lib;..\..\..\..\external\assimp\lib;..\..\..\..\external\libpng\lib;..\..\..\..\external\libjpeg\lib;..\..\..\..\external\zlib\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3d.lib;OpenGL32.lib;glew32sd.lib;luad.lib;freetype281d.lib;assimp-vc140-mtd.lib;libpng16d.lib;jpeg.lib;zlibd.lib;libboost_filesystem-vc140-mt-gd-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\sm\src\sm;..\..\..\..\unirender\include;..\..\..\..\rendergraph\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\glp\src\glp;..\..\..\..\sm\src\sm;..\..\..\..\gtxt\src\gtxt;..\..\..\..\unirender\include;..\..\..\..\tessellation\include;..\..\..\..\rendergraph\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\dtex2\include;..\..\..\..\serializerx\include;..\..\..\..\facade\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -121,8 +196,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;OpenGL32.lib;glew32s.lib;libboost_filesystem-vc140-mt-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib;..\..\..\..\external\lua\lib;..\..\..\..\external\freetype\lib;..\..\..\..\external\assimp\lib;..\..\..\..\external\libpng\lib;..\..\..\..\external\libjpeg\lib;..\..\..\..\external\zlib\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;OpenGL32.lib;glew32s.lib;lua.lib;freetype281.lib;assimp-vc140-mt.lib;libpng16.lib;jpeg.lib;zlib.lib;libboost_filesystem-vc140-mt-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

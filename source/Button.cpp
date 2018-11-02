@@ -21,19 +21,35 @@ tess::Painter button_render(ID_TYPE id, const Button& btn, const GuiState& gui_s
 {
 	tess::Painter pt;
 
-	draw_rect(pt, btn.props.x + 8, btn.props.y + 8, btn.props.width, btn.props.height, 0xff000000);
-	auto& c = rs.colors;
+	Color col;
+	float x = btn.props.x;
+	float y = btn.props.y;
 	if (gui_st.hot_item == id)
 	{
 		if (gui_st.active_item == id) {
-			draw_rect(pt, btn.props.x + 2, btn.props.y + 2, btn.props.width, btn.props.height, c[(int)Color::ButtonActive]);
+			x += 2;
+			y += 2;
+			col = Color::ButtonActive;
 		} else {
-			draw_rect(pt, btn.props.x, btn.props.y, btn.props.width, btn.props.height, c[(int)Color::ButtonHovered]);
+			col = Color::ButtonHovered;
 		}
 	}
 	else
 	{
-		draw_rect(pt, btn.props.x, btn.props.y, btn.props.width, btn.props.height, c[(int)Color::Button]);
+		col = Color::Button;
+	}
+	draw_rect(pt, x, y, btn.props.width, btn.props.height, rs.colors[(int)col]);
+
+	if (btn.props.label)
+	{
+		sm::vec2 pos;
+		pos.x = btn.props.x + rs.frame_padding.x;
+		pos.y = btn.props.y + rs.frame_padding.y + btn.props.height * 0.5f - 2;	// fixme: layout
+		if (gui_st.active_item == id) {
+			pos.x += 2;
+			pos.y += 2;
+		}
+		Callback::DrawLabel(btn.props.label, pos, rs.colors[(int)Color::Text], pt);
 	}
 
 	return pt;

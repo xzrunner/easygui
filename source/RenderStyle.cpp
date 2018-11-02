@@ -18,11 +18,21 @@ uint32_t trans_color(float r, float g, float b, float a)
 namespace egui
 {
 
+RenderStyle::RenderStyle()
+{
+	frame_padding.Set(4, 3);
+
+	font_sz = 18;
+}
+
 void style_colors_dark(RenderStyle& s)
 {
 	s.colors[(int)Color::Button]        = trans_color(0.26f, 0.59f, 0.98f, 0.40f);
 	s.colors[(int)Color::ButtonHovered] = trans_color(0.26f, 0.59f, 0.98f, 1.00f);
 	s.colors[(int)Color::ButtonActive]  = trans_color(0.06f, 0.53f, 0.98f, 1.00f);
+
+	s.colors[(int)Color::Text]          = trans_color(1.00f, 1.00f, 1.00f, 1.00f);
+	s.colors[(int)Color::TextDisabled]  = trans_color(0.50f, 0.50f, 0.50f, 1.00f);
 }
 
 }

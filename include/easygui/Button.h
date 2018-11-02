@@ -15,6 +15,7 @@ struct Button
 		float y      = 0;
 		float width  = 100;
 		float height = 100;
+		const char* label = nullptr;
 	} props;
 
 	struct State

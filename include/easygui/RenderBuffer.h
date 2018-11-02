@@ -44,7 +44,7 @@ private:
 	struct Item
 	{
 		ID_TYPE id;
-		size_t vert_n, index_n;
+		size_t vert_n, index_n, tex_n;
 	};
 
 private:
@@ -53,7 +53,7 @@ private:
 	std::vector<Item> m_items;
 
 	size_t m_ptr = 0;
-	size_t m_vert_off = 0, m_index_off = 0;
+	size_t m_vert_off = 0, m_index_off = 0, m_tex_off = 0;
 
 	Status m_status = Status::NEED_REBUILD;
 
@@ -62,6 +62,9 @@ private:
 	unsigned int m_ebo = 0;
 
 	bool m_dirty = false;
+
+	bool m_invalid = false;
+	mutable int m_last_draw_count = 0;
 
 }; // RenderBuffer
 

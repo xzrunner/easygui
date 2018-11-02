@@ -1,5 +1,8 @@
 #pragma once
 
+#include <SM_Vector.h>
+#include <SM_Rect.h>
+
 #include <functional>
 
 namespace tess { class Painter; }
@@ -12,14 +15,22 @@ class Callback
 public:
 	struct Funs
 	{
-		std::function<void(const tess::Painter&)> draw_painter;
+		// label
+		std::function<sm::vec2(const char* label)> get_label_sz;
+		std::function<void(const char* label, const sm::vec2& pos, uint32_t color, tess::Painter& pt)> draw_label;
+
+		// dtex
+		std::function<void(tess::Painter& pt)> relocate_texcoords;
 	};
 
 	static void RegisterCallback(const Funs& funs);
 
 	//////////////////////////////////////////////////////////////////////////
 
-	static void DrawPainter(const tess::Painter& pt);
+	static sm::vec2 GetLabelSize(const char* label);
+	static void DrawLabel(const char* label, const sm::vec2& pos, uint32_t color, tess::Painter& pt);
+
+	static void RelocateTexcoords(tess::Painter& pt);
 
 }; // Callback
 

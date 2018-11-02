@@ -1,4 +1,5 @@
 #include "easygui/RenderBuffer.h"
+#include "easygui/Callback.h"
 
 #include <tessellation/Painter.h>
 #include <unirender/Blackboard.h>
@@ -43,7 +44,9 @@ void RenderBuffer::Rewind()
 	m_ptr       = 0;
 	m_vert_off  = 0;
 	m_index_off = 0;
+	m_tex_off   = 0;
 	m_dirty     = false;
+	m_invalid   = false;
 }
 
 bool RenderBuffer::Advance(ID_TYPE id)
@@ -63,6 +66,7 @@ bool RenderBuffer::Advance(ID_TYPE id)
 	}
 	m_vert_off  += item.vert_n;
 	m_index_off += item.index_n;
+	m_tex_off   += item.tex_n;
 
 	++m_ptr;
 
@@ -78,6 +82,7 @@ bool RenderBuffer::Advance(ID_TYPE id, const tess::Painter& pt)
 	auto& buf = pt.GetBuffer();
 	size_t n_vert  = buf.vertices.size();
 	size_t n_index = buf.indices.size();
+	size_t n_tex   = pt.GetOtherTexRegion().size();
 
 	auto sz = m_items.size();
 	if (m_ptr == sz)
@@ -88,11 +93,11 @@ bool RenderBuffer::Advance(ID_TYPE id, const tess::Painter& pt)
 	else if (m_ptr < sz)
 	{
 		auto& item = m_items[m_ptr];
-		if (item.id != id || item.vert_n != n_vert || item.index_n != n_index) {
+		if (item.id != id || item.vert_n != n_vert || item.index_n != n_index || item.tex_n != n_tex) {
 			Rebuild();
 			return false;
 		}
-		m_pt->FillPainter(pt, m_vert_off, m_index_off);
+		m_pt->FillPainter(pt, m_vert_off, m_index_off, m_tex_off);
 	}
 	else
 	{
@@ -116,8 +121,11 @@ void RenderBuffer::InitVAO()
 
 void RenderBuffer::Draw() const
 {
+	if (!m_invalid) {
+		m_last_draw_count = m_pt->GetBuffer().indices.size();
+	}
 	ur::Blackboard::Instance()->GetRenderContext().DrawElementsVAO(
-		ur::DRAW_TRIANGLES, 0, m_pt->GetBuffer().indices.size(), m_vao);
+		ur::DRAW_TRIANGLES, 0, m_last_draw_count, m_vao);
 }
 
 void RenderBuffer::Rebuild()
@@ -129,7 +137,9 @@ void RenderBuffer::Rebuild()
 	m_ptr       = 0;
 	m_vert_off  = 0;
 	m_index_off = 0;
+	m_tex_off   = 0;
 	m_dirty     = false;
+	m_invalid   = true;
 
 	m_status = Status::NEED_REBUILD;
 }
@@ -140,7 +150,10 @@ void RenderBuffer::UpdateVertexBuf()
 
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
-	auto& buf = m_pt->GetBuffer();
+	tess::Painter pt(*m_pt);
+	Callback::RelocateTexcoords(pt);
+
+	auto& buf = pt.GetBuffer();
 	rc.UpdateBufferRaw(ur::BUFFER_VERTEX, m_vbo, buf.vertices.data(), buf.vertices.size() * sizeof(tess::Painter::Vertex));
 	rc.UpdateBufferRaw(ur::BUFFER_INDEX, m_ebo, buf.indices.data(), buf.indices.size() * sizeof(unsigned short));
 }
@@ -149,7 +162,10 @@ void RenderBuffer::BuildVAO()
 {
 	ur::RenderContext::VertexInfo vi;
 
-	auto& buf = m_pt->GetBuffer();
+	tess::Painter pt(*m_pt);
+	Callback::RelocateTexcoords(pt);
+
+	auto& buf = pt.GetBuffer();
 
 	vi.vert_usage = ur::USAGE_DYNAMIC;
 	vi.vn         = buf.vertices.size();

@@ -23,15 +23,17 @@ Slider::State slider_update(ID_TYPE id, const Slider& slide, const GuiState& gui
 {
 	Slider::State st = slide.state;
 
-	const float x = slide.props.x + HALF_GRID_WIDTH;
-	const float y = slide.props.y + HALF_GRID_HEIGHT;
-	st.event = calc_mouse_event(gui_st, id, x, y, GRID_WIDTH, slide.props.height);
+	auto& pp = slide.props;
+
+	const float x = pp.x + HALF_GRID_WIDTH;
+	const float y = pp.y + HALF_GRID_HEIGHT;
+	st.event = calc_mouse_event(gui_st, id, x, y, GRID_WIDTH, pp.height);
 
 	if (st.event == MouseEvent::DOWN || st.event == MouseEvent::HOLD)
 	{
 		float mouse_pos = gui_st.mouse_y - (y + HALF_GRID_HEIGHT);
-		mouse_pos = std::min(std::max(mouse_pos, 0.0f), slide.props.height);
-		float v = (mouse_pos * slide.props.max) / 255;
+		mouse_pos = std::min(std::max(mouse_pos, 0.0f), pp.height);
+		float v = (mouse_pos * pp.max) / 255;
 		if (v != slide.state.value) {
 			st.value = v;
 		}
@@ -44,16 +46,18 @@ tess::Painter slider_render(ID_TYPE id, const Slider& slide, const GuiState& gui
 {
 	tess::Painter pt;
 
-	float ypos = ((slide.props.height - GRID_HEIGHT) * slide.state.value) / slide.props.max;
+	auto& pp = slide.props;
 
-	draw_rect(pt, slide.props.x, slide.props.y, GRID_WIDTH * 2, slide.props.height + GRID_HEIGHT, 0xff777777);
+	float ypos = ((pp.height - GRID_HEIGHT) * slide.state.value) / pp.max;
 
-	const float x = slide.props.x + HALF_GRID_WIDTH;
-	const float y = slide.props.y + HALF_GRID_HEIGHT + ypos;
+	draw_rect(pt, { pp.x, pp.y }, { pp.x + GRID_WIDTH * 2, pp.y + pp.height + GRID_HEIGHT }, 0xff777777);
+
+	const float x = pp.x + HALF_GRID_WIDTH;
+	const float y = pp.y + HALF_GRID_HEIGHT + ypos;
 	if (gui_st.active_item == id || gui_st.hot_item == id) {
-		draw_rect(pt, x, y, GRID_WIDTH, GRID_HEIGHT, 0xffffffff);
+		draw_rect(pt, { x, y }, { x + GRID_WIDTH, y + GRID_HEIGHT }, 0xffffffff);
 	} else {
-		draw_rect(pt, x, y, GRID_WIDTH, GRID_HEIGHT, 0xffaaaaaa);
+		draw_rect(pt, { x, y }, { x + GRID_WIDTH, y + GRID_HEIGHT }, 0xffaaaaaa);
 	}
 
 	return pt;

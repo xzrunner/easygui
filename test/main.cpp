@@ -215,6 +215,10 @@ void init_render()
 	};
 	cb.draw_label = [](const char* label, const sm::vec2& pos, uint32_t color, tess::Painter& pt)
 	{
+		if (!label) {
+			return;
+		}
+
 		sm::Matrix2D mat;
 		mat.Translate(pos.x + TEXTBOX.width * 0.5f, pos.y);
 
@@ -362,6 +366,11 @@ void draw()
 	if (egui::slider(uid++, &sval2, 200, -40, 255, 15, STATE, STYLE, RBUF, last_frame_dirty)) {
 		printf("slider 2: %f\n", sval2);
 	}
+
+	egui::label(uid++, "hello world.", -200, 0, STYLE, RBUF, last_frame_dirty);
+
+	static bool checkbox = false;
+	egui::checkbox(uid++, "checkbox", &checkbox, -200, 100, STATE, STYLE, RBUF, last_frame_dirty);
 
 	RBUF.InitVAO();
 	RBUF.Draw();

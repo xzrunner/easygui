@@ -34,6 +34,12 @@
     <ClCompile Include="..\..\..\source\RenderBuffer.cpp">
       <Filter>dataset</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\Label.cpp">
+      <Filter>widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Checkbox.cpp">
+      <Filter>widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\easygui\Window.h">
@@ -83,6 +89,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\easygui\RenderBuffer.h">
       <Filter>dataset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Label.h">
+      <Filter>widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Checkbox.h">
+      <Filter>widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

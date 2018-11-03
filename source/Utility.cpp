@@ -1,5 +1,6 @@
 #include "easygui/Utility.h"
 #include "easygui/GuiState.h"
+#include "easygui/RenderStyle.h"
 
 #include <tessellation/Painter.h>
 
@@ -41,9 +42,19 @@ bool region_hit(const GuiState& s, float x, float y, float w, float h)
 		   s.mouse_x < x + w && s.mouse_y < y + h;
 }
 
-void draw_rect(tess::Painter& pt, float x, float y, float w, float h, uint32_t color)
+void draw_rect(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint32_t color)
 {
-	pt.AddRectFilled(sm::vec2(x, y), sm::vec2(x + w, y + h), color);
+	pt.AddRectFilled(min, max, color);
+}
+
+void render_frame(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint32_t color, const RenderStyle& rs, bool border, uint32_t rounding)
+{
+	pt.AddRectFilled(min, max, color);
+	auto& border_size = rs.frame_border_size;
+	if (border && border_size > 0) {
+		pt.AddRect(min + sm::vec2(1, 1), max + sm::vec2(1, 1), rs.colors[(int)Color::BorderShadow], border_size, rounding/*, ImDrawCornerFlags_All*/);
+		pt.AddRect(min, max, rs.colors[(int)Color::Border], border_size, rounding/*, ImDrawCornerFlags_All*/);
+	}
 }
 
 MouseEvent calc_mouse_event(const GuiState& gui_st, ID_TYPE id, float x, float y, float w, float h)

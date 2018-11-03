@@ -25,28 +25,32 @@ RenderBuffer::~RenderBuffer()
 
 void RenderBuffer::Rewind()
 {
+	m_ptr       = 0;
+	m_vert_off  = 0;
+	m_index_off = 0;
+	m_tex_off   = 0;
+
 	switch (m_status)
 	{
 	case Status::NORMAL:
 		if (m_dirty) {
 			UpdateVertexBuf();
+			m_dirty = false;
 		}
+		m_invalid = false;
 		break;
 	case Status::NEED_REBUILD:
-		m_status = Status::REBUILDING;
+		m_dirty   = false;
+		m_invalid = true;
+		m_status  = Status::REBUILDING;
 		break;
 	case Status::REBUILDING:
-		m_status = Status::NORMAL;
-		BuildVAO();
+		m_dirty   = false;
+		m_invalid = false;
+		m_status  = Status::NORMAL;
+		UpdateVertexBufCheckSize();
 		break;
 	}
-
-	m_ptr       = 0;
-	m_vert_off  = 0;
-	m_index_off = 0;
-	m_tex_off   = 0;
-	m_dirty     = false;
-	m_invalid   = false;
 }
 
 bool RenderBuffer::Advance(ID_TYPE id)
@@ -146,8 +150,6 @@ void RenderBuffer::Rebuild()
 
 void RenderBuffer::UpdateVertexBuf()
 {
-	printf("update vbo\n");
-
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
 	tess::Painter pt(*m_pt);
@@ -156,6 +158,21 @@ void RenderBuffer::UpdateVertexBuf()
 	auto& buf = pt.GetBuffer();
 	rc.UpdateBufferRaw(ur::BUFFER_VERTEX, m_vbo, buf.vertices.data(), buf.vertices.size() * sizeof(tess::Painter::Vertex));
 	rc.UpdateBufferRaw(ur::BUFFER_INDEX, m_ebo, buf.indices.data(), buf.indices.size() * sizeof(unsigned short));
+
+	printf("update vbo, vb size %d, eb size, %d\n", buf.vertices.size(), buf.indices.size());
+}
+
+void RenderBuffer::UpdateVertexBufCheckSize()
+{
+	auto& buf = m_pt->GetBuffer();
+	if (buf.vertices.size() > m_last_vbo_sz ||
+		buf.indices.size() > m_last_ebo_sz) {
+		auto& rc = ur::Blackboard::Instance()->GetRenderContext();
+		rc.ReleaseVAO(m_vao, m_vbo, m_ebo);
+		BuildVAO();
+	} else {
+		UpdateVertexBuf();
+	}
 }
 
 void RenderBuffer::BuildVAO()
@@ -181,6 +198,11 @@ void RenderBuffer::BuildVAO()
 	vi.va_list.push_back(ur::VertexAttrib("col", 4, 1, 20, 16));	// col
 
 	ur::Blackboard::Instance()->GetRenderContext().CreateVAO(vi, m_vao, m_vbo, m_ebo);
+
+	m_last_vbo_sz = vi.vn;
+	m_last_ebo_sz = vi.in;
+
+	printf("create vao %d, vb size %d, eb size, %d\n", m_vao, vi.vn, vi.in);
 }
 
 }

@@ -4,6 +4,7 @@
 #include "easygui/Callback.h"
 #include "easygui/CompStorage.h"
 #include "easygui/Utility.h"
+#include "easygui/Label.h"
 
 #include <tessellation/Painter.h>
 
@@ -21,9 +22,11 @@ tess::Painter button_render(ID_TYPE id, const Button& btn, const GuiState& gui_s
 {
 	tess::Painter pt;
 
+	auto& pp = btn.props;
+
 	Color col;
-	float x = btn.props.x;
-	float y = btn.props.y;
+	float x = pp.x;
+	float y = pp.y;
 	if (gui_st.hot_item == id)
 	{
 		if (gui_st.active_item == id) {
@@ -38,18 +41,20 @@ tess::Painter button_render(ID_TYPE id, const Button& btn, const GuiState& gui_s
 	{
 		col = Color::Button;
 	}
-	draw_rect(pt, x, y, btn.props.width, btn.props.height, rs.colors[(int)col]);
+	render_frame(pt, { x, y }, { x + pp.width, y + pp.height }, rs.colors[(int)col], rs);
 
-	if (btn.props.label)
+	if (pp.label)
 	{
 		sm::vec2 pos;
-		pos.x = btn.props.x + rs.frame_padding.x;
-		pos.y = btn.props.y + rs.frame_padding.y + btn.props.height * 0.5f - 2;	// fixme: layout
+		pos.x = pp.x + rs.frame_padding.x;
+		pos.y = pp.y + rs.frame_padding.y + pp.height * 0.5f - 2;	// fixme: layout
 		if (gui_st.active_item == id) {
 			pos.x += 2;
 			pos.y += 2;
 		}
-		Callback::DrawLabel(btn.props.label, pos, rs.colors[(int)Color::Text], pt);
+
+		Label label({ pos.x, pos.y, pp.label });
+		pt.AddPainter(label_render(label, rs));
 	}
 
 	return pt;

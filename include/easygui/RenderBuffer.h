@@ -31,6 +31,7 @@ private:
 	void Rebuild();
 
 	void UpdateVertexBuf();
+	void UpdateVertexBufCheckSize();
 	void BuildVAO();
 
 private:
@@ -65,6 +66,9 @@ private:
 
 	bool m_invalid = false;
 	mutable int m_last_draw_count = 0;
+
+	size_t m_last_vbo_sz = 0;
+	size_t m_last_ebo_sz = 0;
 
 }; // RenderBuffer
 

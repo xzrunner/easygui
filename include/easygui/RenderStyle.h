@@ -9,9 +9,18 @@ namespace egui
 
 enum class Color
 {
+	Border,
+	BorderShadow,
+
 	Button,
 	ButtonHovered,
 	ButtonActive,
+
+	CheckMark,
+
+	FrameBg,
+	FrameBgHovered,
+	FrameBgActive,
 
 	Text,
 	TextDisabled,
@@ -27,6 +36,8 @@ struct RenderStyle
 	uint32_t colors[(int)Color::Count];
 
 	sm::vec2 frame_padding;
+	float    frame_rounding;
+	float    frame_border_size;
 
 	size_t font_sz;
 

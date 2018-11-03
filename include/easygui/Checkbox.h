@@ -7,7 +7,7 @@ namespace tess { class Painter; }
 namespace egui
 {
 
-struct Button
+struct Checkbox
 {
 	struct Props
 	{
@@ -20,6 +20,7 @@ struct Button
 
 	struct State
 	{
+		bool value = false;
 		MouseEvent event = MouseEvent::NONE;
 	} state;
 };
@@ -27,7 +28,7 @@ struct Button
 struct GuiState;
 struct RenderStyle;
 
-Button::State button_update(ID_TYPE id, const Button& btn, const GuiState& gui_st);
-tess::Painter button_render(ID_TYPE id, const Button& btn, const GuiState& gui_st, const RenderStyle& rs);
+Checkbox::State checkbox_update(ID_TYPE id, const Checkbox& cb, const GuiState& gui_st);
+tess::Painter   checkbox_render(ID_TYPE id, const Checkbox& cb, const GuiState& gui_st, const RenderStyle& rs);
 
 }

@@ -35,7 +35,7 @@ struct RenderStyle;
 class CompStorage;
 
 Window::State window_update(ID_TYPE id, const Window& wnd, const GuiState& gui_st,
-	                        const CompStorage& storage);
+	                        const RenderStyle& rs, const CompStorage& storage);
 tess::Painter window_render(ID_TYPE id, const Window& wnd, const GuiState& gui_st,
 	                        const RenderStyle& rs, const CompStorage& storage);
 

@@ -12,6 +12,9 @@ enum class Color
 	Border,
 	BorderShadow,
 
+	SliderGrab,
+	SliderGrabActive,
+
 	Button,
 	ButtonHovered,
 	ButtonActive,
@@ -38,6 +41,8 @@ struct RenderStyle
 	sm::vec2 frame_padding;
 	float    frame_rounding;
 	float    frame_border_size;
+	float    grab_min_size;
+	float    grab_rounding;
 
 	size_t font_sz;
 

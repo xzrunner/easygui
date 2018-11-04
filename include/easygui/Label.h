@@ -11,6 +11,7 @@ struct Label
 	{
 		float x = 0;
 		float y = 0;
+		float angle = 0;
 		const char* text = nullptr;
 	} props;
 };

@@ -2,7 +2,6 @@
 #include "easygui/Utility.h"
 #include "easygui/GuiState.h"
 #include "easygui/RenderStyle.h"
-#include "easygui/Label.h"
 
 #include <tessellation/Painter.h>
 #include <primitive/Path.h>
@@ -50,19 +49,10 @@ tess::Painter checkbox_render(ID_TYPE id, const Checkbox& cb, const GuiState& gu
 
 	sm::vec2 check_sz(pp.height, pp.height);
 
-	Color col;
-	if (gui_st.hot_item == id) {
-		if (gui_st.active_item == id) {
-			col = Color::FrameBgActive;
-		} else {
-			col = Color::FrameBgHovered;
-		}
-	} else {
-		col = Color::FrameBg;
-	}
 	sm::vec2 min(pp.x, pp.y);
 	sm::vec2 max(pp.x + pp.height, pp.y + pp.height);
-	render_frame(pt, min, max, rs.colors[(int)col], rs);
+	uint32_t color = rs.colors[(int)get_frame_bg_color(id, gui_st)];
+	render_frame(pt, min, max, color, rs);
 	if (cb.state.value) {
 		const float check_sz = std::min(pp.width, pp.height);
 		const float pad = std::max(1.0f, (float)(int)(check_sz / 6.0f));
@@ -71,11 +61,9 @@ tess::Painter checkbox_render(ID_TYPE id, const Checkbox& cb, const GuiState& gu
 
 	if (pp.label)
 	{
-		sm::vec2 pos;
-		pos.x = pp.x + rs.frame_padding.x + pp.height;
-		pos.y = pp.y + rs.frame_padding.y + pp.height * 0.5f - 2;	// fixme: layout
-		Label label({ pos.x, pos.y, pp.label });
-		pt.AddPainter(label_render(label, rs));
+		const float x = pp.x + rs.frame_padding.x + pp.height;
+		const float y = pp.y + rs.frame_padding.y;
+		render_text(pt, pp.label, x, y, pp.label_sz.y, rs);
 	}
 
 	return pt;

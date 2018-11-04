@@ -17,7 +17,7 @@ public:
 	{
 		// label
 		std::function<sm::vec2(const char* label)> get_label_sz;
-		std::function<void(const char* label, const sm::vec2& pos, uint32_t color, tess::Painter& pt)> draw_label;
+		std::function<void(const char* label, const sm::vec2& pos, float angle, uint32_t color, tess::Painter& pt)> draw_label;
 
 		// dtex
 		std::function<void(tess::Painter& pt)> relocate_texcoords;
@@ -28,7 +28,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 
 	static sm::vec2 GetLabelSize(const char* label);
-	static void DrawLabel(const char* label, const sm::vec2& pos, uint32_t color, tess::Painter& pt);
+	static void DrawLabel(const char* label, const sm::vec2& pos, float angle, uint32_t color, tess::Painter& pt);
 
 	static void RelocateTexcoords(tess::Painter& pt);
 

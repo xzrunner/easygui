@@ -78,7 +78,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	double sx, sy;
 	glfwGetCursorPos(window, &sx, &sy);
-	auto proj = screen2proj(sx, sy);
+	auto proj = screen2proj(static_cast<float>(sx), static_cast<float>(sy));
 	int x = static_cast<int>(proj.x);
 	int y = static_cast<int>(proj.y);
 
@@ -106,7 +106,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	auto proj = screen2proj(xpos, ypos);
+	auto proj = screen2proj(static_cast<float>(xpos), static_cast<float>(ypos));
 	int x = static_cast<int>(proj.x);
 	int y = static_cast<int>(proj.y);
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS ||
@@ -168,7 +168,7 @@ void init_render()
 
 	pt2::Blackboard::Instance()->SetRenderContext(std::make_shared<pt2::RenderContext>());
 
-	auto wc = std::make_shared<pt2::WindowContext>(WIDTH, HEIGHT, WIDTH, HEIGHT);
+	auto wc = std::make_shared<pt2::WindowContext>(static_cast<float>(WIDTH), static_cast<float>(HEIGHT), WIDTH, HEIGHT);
 	pt2::Blackboard::Instance()->SetWindowContext(wc);
 	auto sr = std::static_pointer_cast<rg::SpriteRenderer>(
 		rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE)
@@ -213,14 +213,18 @@ void init_render()
 	cb.get_label_sz = [](const char* label)->sm::vec2 {
 		return facade::GTxt::Instance()->CalcLabelSize(label, TEXTBOX);
 	};
-	cb.draw_label = [](const char* label, const sm::vec2& pos, uint32_t color, tess::Painter& pt)
+	cb.draw_label = [](const char* label, const sm::vec2& pos, float angle, uint32_t color, tess::Painter& pt)
 	{
 		if (!label) {
 			return;
 		}
 
 		sm::Matrix2D mat;
-		mat.Translate(pos.x + TEXTBOX.width * 0.5f, pos.y);
+		mat.Rotate(angle);
+		const float len = TEXTBOX.width * 0.5f;
+		float dx = len * cos(angle);
+		float dy = len * sin(angle);
+		mat.Translate(pos.x + dx, pos.y + dy);
 
 		pt2::Color col;
 		col.FromABGR(color);
@@ -271,10 +275,10 @@ void init_render()
 				r.ymax = tex.h * max.y;
 
 				sm::irect qr;
-				qr.xmin = tex.w * min.x;
-				qr.xmax = tex.w * max.x;
-				qr.ymin = tex.h * min.y;
-				qr.ymax = tex.h * max.y;
+				qr.xmin = static_cast<int>(tex.w * min.x);
+				qr.xmax = static_cast<int>(tex.w * max.x);
+				qr.ymin = static_cast<int>(tex.h * min.y);
+				qr.ymax = static_cast<int>(tex.h * max.y);
 
 				int cached_texid;
 				auto cached_texcoords = rg::Callback::QueryCachedTexQuad(tex.id, qr, cached_texid);
@@ -327,7 +331,7 @@ void init_render()
 				assert(r.texid == label.id);
 				relocate_label(label, buf, r.begin, r.end);
 			}
-			if (regions.back().end < buf.vertices.size() - 1) {
+			if (regions.back().end < static_cast<int>(buf.vertices.size() - 1)) {
 				relocate_palette(palette, buf, regions.back().end + 1, buf.vertices.size() - 1);
 			}
 		}
@@ -353,17 +357,17 @@ void draw()
 	}
 
 	static float sval0 = 0;
-	if (egui::slider(uid++, &sval0, 100, -40, 255, 255, STATE, STYLE, RBUF, last_frame_dirty)) {
+	if (egui::slider(uid++, "slider 0", &sval0, 100, -50, 255, 255, false, STATE, STYLE, RBUF, last_frame_dirty)) {
 		printf("slider 0: %f\n", sval0);
 	}
 
 	static float sval1 = 0;
-	if (egui::slider(uid++, &sval1, 150, -40, 255, 63, STATE, STYLE, RBUF, last_frame_dirty)) {
+	if (egui::slider(uid++, "slider 1", &sval1, 100, 50, 255, 63, false, STATE, STYLE, RBUF, last_frame_dirty)) {
 		printf("slider 1: %f\n", sval1);
 	}
 
 	static float sval2 = 0;
-	if (egui::slider(uid++, &sval2, 200, -40, 255, 15, STATE, STYLE, RBUF, last_frame_dirty)) {
+	if (egui::slider(uid++, "slider 2 zz", &sval2, 50, -100, 255, 15, true, STATE, STYLE, RBUF, last_frame_dirty)) {
 		printf("slider 2: %f\n", sval2);
 	}
 

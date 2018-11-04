@@ -1,6 +1,6 @@
 #include "easygui/Utility.h"
 #include "easygui/GuiState.h"
-#include "easygui/RenderStyle.h"
+#include "easygui/Label.h"
 
 #include <tessellation/Painter.h>
 
@@ -57,6 +57,22 @@ void render_frame(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, u
 	}
 }
 
+void render_text(tess::Painter& pt, const char* str, float x, float y, float height, const RenderStyle& rs, bool vert)
+{
+	float angle = 0;
+	if (vert)
+	{
+		angle = - SM_PI * 0.5f;
+		x += height * 0.5f;
+	}
+	else
+	{
+		y += height * 0.5f;
+	}
+	Label label({ x, y, angle, str });
+	pt.AddPainter(label_render(label, rs));
+}
+
 MouseEvent calc_mouse_event(const GuiState& gui_st, ID_TYPE id, float x, float y, float w, float h)
 {
 	MouseEvent st = MouseEvent::NONE;
@@ -92,9 +108,17 @@ MouseEvent calc_mouse_event(const GuiState& gui_st, ID_TYPE id, float x, float y
 	return st;
 }
 
-GuiState calc_gui_state(MouseEvent event, const GuiState& gui_st, ID_TYPE id)
+GuiState calc_gui_state(MouseEvent event, const GuiState& gui_st, ID_TYPE id, bool drag)
 {
 	GuiState new_st = gui_st;
+	if (new_st.drag_locked && new_st.active_item != id) {
+		return new_st;
+	}
+
+	if (drag && new_st.drag_locked && new_st.active_item == id && event == MouseEvent::UP) {
+		new_st.drag_locked = false;
+	}
+
 	switch (event)
 	{
 	case MouseEvent::NONE:
@@ -115,6 +139,9 @@ GuiState calc_gui_state(MouseEvent event, const GuiState& gui_st, ID_TYPE id)
 	case MouseEvent::DOWN:
 		new_st.hot_item    = id;
 		new_st.active_item = id;
+		if (drag) {
+			new_st.drag_locked = true;
+		}
 		break;
 	case MouseEvent::UP:
 		new_st.hot_item = id;
@@ -124,6 +151,21 @@ GuiState calc_gui_state(MouseEvent event, const GuiState& gui_st, ID_TYPE id)
 		break;
 	}
 	return new_st;
+}
+
+Color get_frame_bg_color(ID_TYPE id, const GuiState& gui_st)
+{
+	Color col;
+	if (gui_st.hot_item == id) {
+		if (gui_st.active_item == id) {
+			col = Color::FrameBgActive;
+		} else {
+			col = Color::FrameBgHovered;
+		}
+	} else {
+		col = Color::FrameBg;
+	}
+	return col;
 }
 
 }

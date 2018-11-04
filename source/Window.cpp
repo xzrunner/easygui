@@ -12,13 +12,13 @@ namespace egui
 {
 
 Window::State window_update(ID_TYPE id, const Window& wnd, const GuiState& gui_st,
-	                        const CompStorage& storage)
+	                        const RenderStyle& rs, const CompStorage& storage)
 {
 	Window::State st = wnd.state;
 //	st.event = calc_mouse_event(gui_st, id, wnd.props.x, wnd.props.y, wnd.props.width, wnd.props.height);
 
 	for (auto& c : wnd.comp.children) {
-		System::Update(c, gui_st, storage);
+		System::Update(c, gui_st, rs, storage);
 	}
 
 	return st;

@@ -2,6 +2,8 @@
 
 #include "easygui/typedef.h"
 
+#include <SM_Vector.h>
+
 namespace tess { class Painter; }
 
 namespace egui
@@ -15,7 +17,10 @@ struct Button
 		float y      = 0;
 		float width  = 100;
 		float height = 100;
+
 		const char* label = nullptr;
+		sm::vec2    label_sz;
+
 	} props;
 
 	struct State

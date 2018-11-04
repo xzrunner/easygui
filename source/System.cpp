@@ -19,20 +19,20 @@ egui::CompType get_comp_type(egui::ID_TYPE id)
 namespace egui
 {
 
-void System::Update(ID_TYPE id, const GuiState& gui_st, const CompStorage& storage)
+void System::Update(ID_TYPE id, const GuiState& gui_st, const RenderStyle& rs, const CompStorage& storage)
 {
 	auto data = storage.Get(id);
 	assert(data);
 	switch (get_comp_type(id))
 	{
 	case CompType::Window:
-		window_update(id, *static_cast<const Window*>(data), gui_st, storage);
+		window_update(id, *static_cast<const Window*>(data), gui_st, rs, storage);
 		break;
 	case CompType::Button:
 		button_update(id, *static_cast<const Button*>(data), gui_st);
 		break;
 	case CompType::Slider:
-		slider_update(id, *static_cast<const Slider*>(data), gui_st);
+		slider_update(id, *static_cast<const Slider*>(data), gui_st, rs);
 		break;
 	}
 }

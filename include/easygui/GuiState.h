@@ -20,6 +20,7 @@ struct GuiState
 
 	ID_TYPE hot_item    = 0;
 	ID_TYPE active_item = 0;
+	bool drag_locked    = false;
 
 	void Begin();
 	void End();

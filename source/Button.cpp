@@ -4,7 +4,6 @@
 #include "easygui/Callback.h"
 #include "easygui/CompStorage.h"
 #include "easygui/Utility.h"
-#include "easygui/Label.h"
 
 #include <tessellation/Painter.h>
 
@@ -45,16 +44,13 @@ tess::Painter button_render(ID_TYPE id, const Button& btn, const GuiState& gui_s
 
 	if (pp.label)
 	{
-		sm::vec2 pos;
-		pos.x = pp.x + rs.frame_padding.x;
-		pos.y = pp.y + rs.frame_padding.y + pp.height * 0.5f - 2;	// fixme: layout
+		float x = pp.x + rs.frame_padding.x;
+		float y = pp.y + rs.frame_padding.y;
 		if (gui_st.active_item == id) {
-			pos.x += 2;
-			pos.y += 2;
+			x += 2;
+			y += 2;
 		}
-
-		Label label({ pos.x, pos.y, pp.label });
-		pt.AddPainter(label_render(label, rs));
+		render_text(pt, pp.label, x, y, pp.label_sz.y, rs);
 	}
 
 	return pt;

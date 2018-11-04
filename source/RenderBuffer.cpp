@@ -134,6 +134,8 @@ void RenderBuffer::Draw() const
 
 void RenderBuffer::Rebuild()
 {
+	printf("rebuild\n");
+
 	m_pt->Clear();
 
 	m_items.clear();

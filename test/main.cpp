@@ -1,9 +1,7 @@
 #include <easygui/Utility.h>
-#include <easygui/GuiState.h>
-#include <easygui/RenderStyle.h>
-#include <easygui/RenderBuffer.h>
 #include <easygui/ImGui.h>
 #include <easygui/Callback.h>
+#include <easygui/Context.h>
 
 #include <glp_loop.h>
 #include <unirender/Blackboard.h>
@@ -39,9 +37,7 @@ const int HEIGHT = 768;
 
 GLFWwindow* WND = nullptr;
 
-egui::GuiState      STATE;
-egui::RenderStyle   STYLE;
-egui::RenderBuffer  RBUF;
+egui::Context CTX;
 
 pt2::Textbox TEXTBOX;
 
@@ -85,17 +81,17 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
 	{
 		if (action == GLFW_PRESS) {
-			egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_LEFT_DOWN, x, y));
+			egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_LEFT_DOWN, x, y));
 		} else if (action == GLFW_RELEASE) {
-			egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_LEFT_UP, x, y));
+			egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_LEFT_UP, x, y));
 		}
 	}
 	else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 	{
 		if (action == GLFW_PRESS) {
-			egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_RIGHT_DOWN, x, y));
+			egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_RIGHT_DOWN, x, y));
 		} else if (action == GLFW_RELEASE) {
-			egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_RIGHT_UP, x, y));
+			egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_RIGHT_UP, x, y));
 		}
 	}
 }
@@ -111,9 +107,9 @@ static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
 	int y = static_cast<int>(proj.y);
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS ||
 		glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-		egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_DRAG, x, y));
+		egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_DRAG, x, y));
 	} else {
-		egui::feed_event(STATE, egui::InputEvent(egui::InputType::MOUSE_MOVE, x, y));
+		egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_MOVE, x, y));
 	}
 }
 
@@ -166,6 +162,9 @@ void init_render()
 	});
 	ur::Blackboard::Instance()->SetRenderContext(ur_rc);
 
+	ur_rc->EnableBlend(true);
+	ur_rc->SetBlend(ur::BLEND_SRC_ALPHA, ur::BLEND_ONE_MINUS_SRC_ALPHA, false);
+
 	pt2::Blackboard::Instance()->SetRenderContext(std::make_shared<pt2::RenderContext>());
 
 	auto wc = std::make_shared<pt2::WindowContext>(static_cast<float>(WIDTH), static_cast<float>(HEIGHT), WIDTH, HEIGHT);
@@ -189,7 +188,7 @@ void init_render()
 	shader->Use();
 	shader->SetMat4("u_model", sm::mat4().x);
 
-	egui::style_colors_dark(STYLE);
+	egui::style_colors_dark(CTX.style);
 
 	// rendergraph callback
 	rg::Callback::Funs rg_cb;
@@ -205,7 +204,8 @@ void init_render()
 	rg::Callback::RegisterCallback(rg_cb);
 
 	// egui callback
-	TEXTBOX.font_size = STYLE.font_sz;
+	TEXTBOX.width = 300;
+	TEXTBOX.font_size = CTX.style.font_sz;
 	TEXTBOX.align_vert = pt2::Textbox::VA_CENTER;
 	auto filtpath = "assets\\default2.ttf";
 	facade::GTxt::Instance()->LoadFonts({ { "default", filtpath } }, { {} });
@@ -346,43 +346,75 @@ void draw()
 	auto sr = std::static_pointer_cast<rg::SpriteRenderer>(rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE));
 	ur::Blackboard::Instance()->GetRenderContext().BindTexture(CURR_TEXID, 0);
 
-	RBUF.Rewind();
+	CTX.rbuf.Rewind();
 
 	uint32_t uid = 1;
-	if (egui::button(uid++, "btn0", 200, 300, 100, 50, STATE, STYLE, RBUF, last_frame_dirty)) {
+	if (egui::button(uid++, "btn0", 200, 300, 100, 50, CTX, last_frame_dirty)) {
 		std::cout << "on click one" << '\n';
 	}
-	if (egui::button(uid++, "btn1", 50, 300, 100, 50, STATE, STYLE, RBUF, last_frame_dirty)) {
+	if (egui::button(uid++, "btn1", 50, 300, 100, 50, CTX, last_frame_dirty)) {
 		std::cout << "on click two" << '\n';
 	}
 
 	static float sval0 = 0;
-	if (egui::slider(uid++, "slider 0", &sval0, 100, -50, 255, 255, false, STATE, STYLE, RBUF, last_frame_dirty)) {
+	if (egui::slider(uid++, "slider 0", &sval0, 100, -50, 255, 255, false, CTX, last_frame_dirty)) {
 		printf("slider 0: %f\n", sval0);
 	}
 
 	static float sval1 = 0;
-	if (egui::slider(uid++, "slider 1", &sval1, 100, 50, 255, 63, false, STATE, STYLE, RBUF, last_frame_dirty)) {
+	if (egui::slider(uid++, "slider 1", &sval1, 100, 50, 255, 63, false, CTX, last_frame_dirty)) {
 		printf("slider 1: %f\n", sval1);
 	}
 
 	static float sval2 = 0;
-	if (egui::slider(uid++, "slider 2 zz", &sval2, 50, -100, 255, 15, true, STATE, STYLE, RBUF, last_frame_dirty)) {
+	if (egui::slider(uid++, "slider 2 zz", &sval2, 50, -100, 255, 15, true, CTX, last_frame_dirty)) {
 		printf("slider 2: %f\n", sval2);
 	}
 
-	egui::label(uid++, "hello world.", -200, 0, STYLE, RBUF, last_frame_dirty);
+	egui::label(uid++, "hello world.", -200, 0, CTX, last_frame_dirty);
 
 	static bool checkbox = false;
-	egui::checkbox(uid++, "checkbox", &checkbox, -200, 100, STATE, STYLE, RBUF, last_frame_dirty);
+	egui::checkbox(uid++, "checkbox", &checkbox, -200, 100, CTX, last_frame_dirty);
 
-	RBUF.InitVAO();
-	RBUF.Draw();
+	static int radio_button = 0;
+	if (egui::radio_button(uid++, "radio button 0", radio_button == 0, -200, 250, CTX, last_frame_dirty)) {
+		radio_button = 0;
+	}
+	if (egui::radio_button(uid++, "radio button 1", radio_button == 1, -200, 220, CTX, last_frame_dirty)) {
+		radio_button = 1;
+	}
+	if (egui::radio_button(uid++, "radio button 2", radio_button == 2, -200, 190, CTX, last_frame_dirty)) {
+		radio_button = 2;
+	}
+
+	if (egui::arrow_button(uid++, egui::Direction::LEFT, -200, 280, 20, true, CTX, last_frame_dirty)) {
+		printf("arrow left\n");
+	}
+	if (egui::arrow_button(uid++, egui::Direction::RIGHT, -170, 280, 20, false, CTX, last_frame_dirty)) {
+		printf("arrow right\n");
+	}
+
+	CTX.rbuf.InitVAO();
+	CTX.rbuf.Draw();
 
 	last_frame_dirty = facade::Facade::Instance()->Flush(false);
 	rg::RenderMgr::Instance()->Flush();
 
 //	facade::DTex::Instance()->DebugDraw();
+}
+
+void update()
+{
+	static uint32_t last_time = 0;
+	uint32_t curr_time = glp_get_time();
+
+	float dt = (curr_time - last_time) / 1000000.0f;
+
+	if (CTX.io.hold_time >= 0) {
+		CTX.io.hold_time -= dt;
+	}
+
+	last_time = curr_time;
 }
 
 }
@@ -403,6 +435,7 @@ int main()
 		glClearColor(0, 0, 0, 1.0f);
 
 		draw();
+		update();
 
 		glfwSwapBuffers(WND);
 

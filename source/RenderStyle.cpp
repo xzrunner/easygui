@@ -37,11 +37,11 @@ void style_colors_dark(RenderStyle& s)
 	s.colors[(int)Color::SliderGrab]       = trans_color(0.24f, 0.52f, 0.88f, 1.00f);
 	s.colors[(int)Color::SliderGrabActive] = trans_color(0.26f, 0.59f, 0.98f, 1.00f);
 
+	s.colors[(int)Color::CheckMark]        = trans_color(0.26f, 0.59f, 0.98f, 1.00f);
+
 	s.colors[(int)Color::Button]           = trans_color(0.26f, 0.59f, 0.98f, 0.40f);
 	s.colors[(int)Color::ButtonHovered]    = trans_color(0.26f, 0.59f, 0.98f, 1.00f);
 	s.colors[(int)Color::ButtonActive]     = trans_color(0.06f, 0.53f, 0.98f, 1.00f);
-
-	s.colors[(int)Color::CheckMark]        = trans_color(0.26f, 0.59f, 0.98f, 1.00f);
 
 	s.colors[(int)Color::FrameBg]          = trans_color(0.16f, 0.29f, 0.48f, 0.54f);
 	s.colors[(int)Color::FrameBgHovered]   = trans_color(0.26f, 0.59f, 0.98f, 0.40f);

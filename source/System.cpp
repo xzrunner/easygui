@@ -19,36 +19,36 @@ egui::CompType get_comp_type(egui::ID_TYPE id)
 namespace egui
 {
 
-void System::Update(ID_TYPE id, const GuiState& gui_st, const RenderStyle& rs, const CompStorage& storage)
+void System::Update(ID_TYPE id, const Context& ctx, const CompStorage& storage)
 {
 	auto data = storage.Get(id);
 	assert(data);
 	switch (get_comp_type(id))
 	{
 	case CompType::Window:
-		window_update(id, *static_cast<const Window*>(data), gui_st, rs, storage);
+		window_update(id, *static_cast<const Window*>(data), ctx, storage);
 		break;
 	case CompType::Button:
-		button_update(id, *static_cast<const Button*>(data), gui_st);
+		button_update(id, *static_cast<const Button*>(data), ctx);
 		break;
 	case CompType::Slider:
-		slider_update(id, *static_cast<const Slider*>(data), gui_st, rs);
+		slider_update(id, *static_cast<const Slider*>(data), ctx);
 		break;
 	}
 }
 
-tess::Painter System::Render(ID_TYPE id, const GuiState& gui_st, const RenderStyle& rs, const CompStorage& storage)
+tess::Painter System::Render(ID_TYPE id, const Context& ctx, const CompStorage& storage)
 {
 	auto data = storage.Get(id);
 	assert(data);
 	switch (get_comp_type(id))
 	{
 	case CompType::Window:
-		return window_render(id, *static_cast<const Window*>(data), gui_st, rs, storage);
+		return window_render(id, *static_cast<const Window*>(data), ctx, storage);
 	case CompType::Button:
-		return button_render(id, *static_cast<const Button*>(data), gui_st, rs);
+		return button_render(id, *static_cast<const Button*>(data), ctx);
 	case CompType::Slider:
-		return slider_render(id, *static_cast<const Slider*>(data), gui_st, rs);
+		return slider_render(id, *static_cast<const Slider*>(data), ctx);
 	}
 	return tess::Painter();
 }

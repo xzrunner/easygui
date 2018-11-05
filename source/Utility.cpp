@@ -1,5 +1,6 @@
 #include "easygui/Utility.h"
 #include "easygui/GuiState.h"
+#include "easygui/IOState.h"
 #include "easygui/Label.h"
 
 #include <tessellation/Painter.h>
@@ -7,7 +8,7 @@
 namespace egui
 {
 
-void feed_event(GuiState& state, InputEvent event/*, const sm::vec2& pos, const sm::vec2& scale*/)
+void feed_event(IOState& state, InputEvent event/*, const sm::vec2& pos, const sm::vec2& scale*/)
 {
 	switch (event.type)
 	{
@@ -36,7 +37,7 @@ void feed_event(GuiState& state, InputEvent event/*, const sm::vec2& pos, const 
 	}
 }
 
-bool region_hit(const GuiState& s, float x, float y, float w, float h)
+bool region_hit(const IOState& s, float x, float y, float w, float h)
 {
 	return s.mouse_x >= x && s.mouse_y >= y &&
 		   s.mouse_x < x + w && s.mouse_y < y + h;
@@ -73,16 +74,46 @@ void render_text(tess::Painter& pt, const char* str, float x, float y, float hei
 	pt.AddPainter(label_render(label, rs));
 }
 
-MouseEvent calc_mouse_event(const GuiState& gui_st, ID_TYPE id, float x, float y, float w, float h)
+void render_arrow(tess::Painter& pt, const sm::vec2& min, float height, Direction dir, uint32_t color)
+{
+	const auto center = min + sm::vec2(height * 0.50f, height * 0.50f);
+
+	sm::vec2 a, b, c;
+	float r = height * 0.4f;
+	switch (dir)
+	{
+	case Direction::UP:
+	case Direction::DOWN:
+		if (dir == Direction::UP) r = -r;
+		a = sm::vec2(+0.000f, +0.750f) * r;
+		b = sm::vec2(-0.866f, -0.750f) * r;
+		c = sm::vec2(+0.866f, -0.750f) * r;
+		break;
+	case Direction::LEFT:
+	case Direction::RIGHT:
+		if (dir == Direction::LEFT) r = -r;
+		a = sm::vec2(+0.750f, +0.000f) * r;
+		b = sm::vec2(-0.750f, +0.866f) * r;
+		c = sm::vec2(-0.750f, -0.866f) * r;
+		break;
+	case Direction::NONE:
+		assert(0);
+		break;
+	}
+
+	pt.AddTriangleFilled(center + a, center + b, center + c, color);
+}
+
+MouseEvent calc_mouse_event(const GuiState& gui_st, const IOState& io_st, ID_TYPE id, float x, float y, float w, float h)
 {
 	MouseEvent st = MouseEvent::NONE;
 
 	bool hot    = false;
 	bool active = false;
-	if (region_hit(gui_st, x, y, w, h))
+	if (region_hit(io_st, x, y, w, h))
 	{
 		hot = true;
-		if (gui_st.mouse_down) {
+		if (io_st.mouse_down) {
 			active = true;
 		}
 	}
@@ -92,7 +123,7 @@ MouseEvent calc_mouse_event(const GuiState& gui_st, ID_TYPE id, float x, float y
 	}
 
 	st = MouseEvent::HOVER;
-	if (gui_st.mouse_down && active)
+	if (io_st.mouse_down && active)
 	{
 		if (gui_st.active_item == id) {
 			st = MouseEvent::HOLD;
@@ -100,7 +131,7 @@ MouseEvent calc_mouse_event(const GuiState& gui_st, ID_TYPE id, float x, float y
 			st = MouseEvent::DOWN;
 		}
 	}
-	else if (!gui_st.mouse_down && gui_st.active_item == id && !active)
+	else if (!io_st.mouse_down && gui_st.active_item == id && !active)
 	{
 		st = MouseEvent::UP;
 	}
@@ -164,6 +195,21 @@ Color get_frame_bg_color(ID_TYPE id, const GuiState& gui_st)
 		}
 	} else {
 		col = Color::FrameBg;
+	}
+	return col;
+}
+
+Color get_button_color(ID_TYPE id, const GuiState& gui_st)
+{
+	Color col;
+	if (gui_st.hot_item == id) {
+		if (gui_st.active_item == id) {
+			col = Color::ButtonActive;
+		} else {
+			col = Color::ButtonHovered;
+		}
+	} else {
+		col = Color::Button;
 	}
 	return col;
 }

@@ -9,16 +9,15 @@ namespace tess { class Painter; }
 namespace egui
 {
 
-struct Button
+struct ArrowButton
 {
 	struct Props
 	{
 		float x = 0;
 		float y = 0;
+		float height = 10;
 
-		const char* label = nullptr;
-		sm::vec2    label_sz;
-
+		Direction dir;
 	} props;
 
 	struct State
@@ -29,7 +28,7 @@ struct Button
 
 struct Context;
 
-Button::State button_update(ID_TYPE id, const Button& btn, const Context& ctx);
-tess::Painter button_render(ID_TYPE id, const Button& btn, const Context& ctx);
+ArrowButton::State arrow_button_update(ID_TYPE id, const ArrowButton& ab, const Context& ctx);
+tess::Painter      arrow_button_render(ID_TYPE id, const ArrowButton& ab, const Context& ctx);
 
 }

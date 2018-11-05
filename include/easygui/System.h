@@ -7,15 +7,14 @@
 namespace egui
 {
 
-struct GuiState;
+struct Context;
 class CompStorage;
-struct RenderStyle;
 
 class System
 {
 public:
-	static void Update(ID_TYPE id, const GuiState& gui_st, const RenderStyle& rs, const CompStorage& storage);
-	static tess::Painter Render(ID_TYPE id, const GuiState& gui_st, const RenderStyle& rs, const CompStorage& storage);
+	static void Update(ID_TYPE id, const Context& ctx, const CompStorage& storage);
+	static tess::Painter Render(ID_TYPE id, const Context& ctx, const CompStorage& storage);
 
 }; // System
 

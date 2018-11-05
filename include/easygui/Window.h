@@ -30,13 +30,10 @@ struct Window
 	} comp;
 };
 
-struct GuiState;
-struct RenderStyle;
+struct Context;
 class CompStorage;
 
-Window::State window_update(ID_TYPE id, const Window& wnd, const GuiState& gui_st,
-	                        const RenderStyle& rs, const CompStorage& storage);
-tess::Painter window_render(ID_TYPE id, const Window& wnd, const GuiState& gui_st,
-	                        const RenderStyle& rs, const CompStorage& storage);
+Window::State window_update(ID_TYPE id, const Window& wnd, const Context& ctx, const CompStorage& storage);
+tess::Painter window_render(ID_TYPE id, const Window& wnd, const Context& ctx, const CompStorage& storage);
 
 }

@@ -128,8 +128,10 @@ void RenderBuffer::Draw() const
 	if (!m_invalid) {
 		m_last_draw_count = m_pt->GetBuffer().indices.size();
 	}
-	ur::Blackboard::Instance()->GetRenderContext().DrawElementsVAO(
-		ur::DRAW_TRIANGLES, 0, m_last_draw_count, m_vao);
+	if (m_last_draw_count > 0) {
+		ur::Blackboard::Instance()->GetRenderContext().DrawElementsVAO(
+			ur::DRAW_TRIANGLES, 0, m_last_draw_count, m_vao);
+	}
 }
 
 void RenderBuffer::Rebuild()

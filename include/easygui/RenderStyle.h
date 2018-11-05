@@ -15,11 +15,11 @@ enum class Color
 	SliderGrab,
 	SliderGrabActive,
 
+	CheckMark,
+
 	Button,
 	ButtonHovered,
 	ButtonActive,
-
-	CheckMark,
 
 	FrameBg,
 	FrameBgHovered,

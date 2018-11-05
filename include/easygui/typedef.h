@@ -14,11 +14,20 @@ using ID_TYPE = std::uint32_t;
 
 enum class MouseEvent
 {
-	NONE = 0,
+	NONE,
 	DOWN,
 	UP,
 	HOLD,
 	HOVER,
+};
+
+enum class Direction
+{
+	NONE,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
 };
 
 }

@@ -1,41 +1,37 @@
 #pragma once
 
-#include <SM_Vector.h>
-
 #include "easygui/typedef.h"
+
+#include <SM_Vector.h>
 
 namespace tess { class Painter; }
 
 namespace egui
 {
 
-struct Slider
+struct RadioButton
 {
 	struct Props
 	{
 		float x = 0;
 		float y = 0;
-		float length = 100;
 
-		float max_val = 1;
+		bool value = false;
 
 		const char* label = nullptr;
 		sm::vec2    label_sz;
-
-		bool verticle = false;
 
 	} props;
 
 	struct State
 	{
-		float      value = 0;
 		MouseEvent event = MouseEvent::NONE;
 	} state;
 };
 
 struct Context;
 
-Slider::State slider_update(ID_TYPE id, const Slider& slide, const Context& ctx);
-tess::Painter slider_render(ID_TYPE id, const Slider& slide, const Context& ctx);
+RadioButton::State radio_button_update(ID_TYPE id, const RadioButton& rb, const Context& ctx);
+tess::Painter      radio_button_render(ID_TYPE id, const RadioButton& rb, const Context& ctx);
 
 }

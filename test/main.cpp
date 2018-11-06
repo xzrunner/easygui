@@ -157,13 +157,15 @@ bool init_glfw()
 
 void init_render()
 {
-	auto ur_rc = std::make_shared<ur::gl::RenderContext>(4096, [&]() {
+	auto ur_rc = std::make_shared<ur::gl::RenderContext>(4096, [&](ur::RenderContext& ctx) {
+		ctx.EnableFlushCB(false);
 		rg::RenderMgr::Instance()->Flush();
+		ctx.EnableFlushCB(true);
 	});
 	ur::Blackboard::Instance()->SetRenderContext(ur_rc);
 
 	ur_rc->EnableBlend(true);
-	ur_rc->SetBlend(ur::BLEND_SRC_ALPHA, ur::BLEND_ONE_MINUS_SRC_ALPHA, false);
+	ur_rc->SetBlend(ur::BLEND_SRC_ALPHA, ur::BLEND_ONE_MINUS_SRC_ALPHA);
 
 	pt2::Blackboard::Instance()->SetRenderContext(std::make_shared<pt2::RenderContext>());
 

@@ -23,6 +23,7 @@ public:
 	bool Advance(ID_TYPE id, const tess::Painter& pt);
 
 	bool IsRebuilding() const { return m_status == Status::REBUILDING; }
+	bool NeedRebuild() const { return m_status == Status::NEED_REBUILD; }
 
 	void InitVAO();
 	void Draw() const;

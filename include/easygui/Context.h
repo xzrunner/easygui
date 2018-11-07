@@ -21,6 +21,10 @@ struct Context
 
 	// render
 	RenderBuffer rbuf;
+
+	// input
+	std::vector<InputEvent> input_events;
+
 };
 
 }

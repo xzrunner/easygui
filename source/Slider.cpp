@@ -14,7 +14,7 @@ namespace egui
 Slider::State slider_update(ID_TYPE id, const Slider& slide, const Context& ctx)
 {
 	Slider::State st = slide.state;
-	if (ctx.gui.drag_locked && ctx.gui.active_item != id) {
+	if (ctx.gui.IsDragLocked() && ctx.gui.GetActiveItem() != id) {
 		return st;
 	}
 
@@ -24,9 +24,9 @@ Slider::State slider_update(ID_TYPE id, const Slider& slide, const Context& ctx)
 		const float grab_sz = ctx.style.grab_min_size;
 		float mouse_pos;
 		if (!pp.verticle) {
-			mouse_pos = ctx.io.mouse_x - (pp.x + grab_sz * 0.5f);
+			mouse_pos = ctx.io.GetMouseX() - (pp.x + grab_sz * 0.5f);
 		} else {
-			mouse_pos = ctx.io.mouse_y - (pp.y + grab_sz * 0.5f);
+			mouse_pos = ctx.io.GetMouseY() - (pp.y + grab_sz * 0.5f);
 		}
 		mouse_pos = std::min(std::max(mouse_pos, 0.0f), pp.length - grab_sz);
 		float v = (mouse_pos * pp.max_val) / (pp.length - grab_sz);
@@ -35,9 +35,9 @@ Slider::State slider_update(ID_TYPE id, const Slider& slide, const Context& ctx)
 		}
 	};
 
-	if (ctx.gui.drag_locked && ctx.gui.active_item == id)
+	if (ctx.gui.IsDragLocked() && ctx.gui.GetActiveItem() == id)
 	{
-		if (ctx.io.mouse_down) {
+		if (ctx.io.IsMouseDown()) {
 			update_val(slide, ctx, st);
 			st.event = MouseEvent::HOLD;
 		} else {
@@ -82,7 +82,7 @@ tess::Painter slider_render(ID_TYPE id, const Slider& slide, const Context& ctx)
 	// frame bg
 	sm::vec2 min(pp.x, pp.y);
 	sm::vec2 max(pp.x + frame_w, pp.y + frame_h);
-	uint32_t color = ctx.style.colors[(int)get_frame_bg_color(id, ctx.gui)];
+	uint32_t color = ctx.style.colors[(int)get_group3_item_color(id, ctx.gui, Color::FrameBg)];
 	render_frame(pt, min, max, color, ctx.style);
 
 	// grab
@@ -95,7 +95,7 @@ tess::Painter slider_render(ID_TYPE id, const Slider& slide, const Context& ctx)
 		min.Set(pp.x, pp.y + grab_pos);
 		max = min + sm::vec2(frame_w, grab_sz);
 	}
-	const Color col = ctx.gui.active_item == id ? Color::SliderGrabActive : Color::SliderGrab;
+	const Color col = ctx.gui.GetActiveItem() == id ? Color::SliderGrabActive : Color::SliderGrab;
 	draw_rect(pt, min, max, ctx.style.colors[(int)col]);
 
 	// value

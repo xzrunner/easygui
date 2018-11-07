@@ -8,39 +8,12 @@
 namespace egui
 {
 
-void feed_event(IOState& state, InputEvent event/*, const sm::vec2& pos, const sm::vec2& scale*/)
-{
-	switch (event.type)
-	{
-	case InputType::KEY_DOWN:
-	case InputType::KEY_UP:
-		state.key_code = event.key.code;
-		state.key_down = event.type == InputType::KEY_DOWN;
-		break;
-	case InputType::MOUSE_LEFT_DOWN:
-	case InputType::MOUSE_LEFT_UP:
-	case InputType::MOUSE_RIGHT_DOWN:
-	case InputType::MOUSE_RIGHT_UP:
-	case InputType::MOUSE_MOVE:
-	case InputType::MOUSE_DRAG:
-	case InputType::MOUSE_LEFT_DCLICK:
-	case InputType::MOUSE_WHEEL_ROTATION:
-		state.mouse_x = event.mouse.x;
-		state.mouse_y = event.mouse.y;
-		state.mouse_dir = event.mouse.direction;
-		state.mouse_left = (event.type == InputType::MOUSE_LEFT_DOWN) ||
-			               (event.type == InputType::MOUSE_LEFT_UP);
-		state.mouse_down = (event.type == InputType::MOUSE_LEFT_DOWN) ||
-			               (event.type == InputType::MOUSE_RIGHT_DOWN) ||
-			               (event.type == InputType::MOUSE_DRAG);
-		break;
-	}
-}
-
 bool region_hit(const IOState& s, float x, float y, float w, float h)
 {
-	return s.mouse_x >= x && s.mouse_y >= y &&
-		   s.mouse_x < x + w && s.mouse_y < y + h;
+	const int mx = s.GetMouseX();
+	const int my = s.GetMouseY();
+	return mx >= x && my >= y &&
+		   mx < x + w && my < y + h;
 }
 
 void draw_rect(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint32_t color)
@@ -84,7 +57,7 @@ void render_arrow(tess::Painter& pt, const sm::vec2& min, float height, Directio
 	{
 	case Direction::UP:
 	case Direction::DOWN:
-		if (dir == Direction::UP) r = -r;
+		if (dir == Direction::DOWN) r = -r;
 		a = sm::vec2(+0.000f, +0.750f) * r;
 		b = sm::vec2(-0.866f, -0.750f) * r;
 		c = sm::vec2(+0.866f, -0.750f) * r;
@@ -108,13 +81,13 @@ MouseEvent calc_mouse_event(const GuiState& gui_st, const IOState& io_st, ID_TYP
 {
 	MouseEvent st = MouseEvent::NONE;
 
-	bool hot    = false;
-	bool active = false;
+	bool hot = false;
+	bool hit = false;
 	if (region_hit(io_st, x, y, w, h))
 	{
 		hot = true;
-		if (io_st.mouse_down) {
-			active = true;
+		if (io_st.IsMouseDown()) {
+			hit = true;
 		}
 	}
 	else
@@ -123,17 +96,21 @@ MouseEvent calc_mouse_event(const GuiState& gui_st, const IOState& io_st, ID_TYP
 	}
 
 	st = MouseEvent::HOVER;
-	if (io_st.mouse_down && active)
+	if (io_st.IsMouseDown() && hit)
 	{
-		if (gui_st.active_item == id) {
-			st = MouseEvent::HOLD;
-		} else {
+		if (io_st.IsMouseClick()) {
 			st = MouseEvent::DOWN;
+		} else {
+			st = MouseEvent::HOLD;
 		}
 	}
-	else if (!io_st.mouse_down && gui_st.active_item == id && !active)
+	else if (!io_st.IsMouseDown() && !hit)
 	{
-		st = MouseEvent::UP;
+		if (io_st.IsMouseClick()) {
+			st = MouseEvent::CLICK;
+		} else {
+			st = MouseEvent::UP;
+		}
 	}
 
 	return st;
@@ -142,74 +119,62 @@ MouseEvent calc_mouse_event(const GuiState& gui_st, const IOState& io_st, ID_TYP
 GuiState calc_gui_state(MouseEvent event, const GuiState& gui_st, ID_TYPE id, bool drag)
 {
 	GuiState new_st = gui_st;
-	if (new_st.drag_locked && new_st.active_item != id) {
+	if (new_st.IsDragLocked() && new_st.GetActiveItem() != id) {
 		return new_st;
 	}
 
-	if (drag && new_st.drag_locked && new_st.active_item == id && event == MouseEvent::UP) {
-		new_st.drag_locked = false;
+	if (drag && new_st.IsDragLocked() && new_st.GetActiveItem() == id && event == MouseEvent::UP) {
+		new_st.SetDragLocked(false);
 	}
 
 	switch (event)
 	{
 	case MouseEvent::NONE:
-		if (new_st.hot_item == id) {
-			new_st.hot_item = 0;
+		if (new_st.GetHotItem() == id) {
+			new_st.SetHotItem(0);
 		}
-		if (new_st.active_item == id) {
-			new_st.active_item = 0;
+		if (new_st.GetActiveItem() == id &&
+			new_st.GetPopupItem() != id) {
+			new_st.SetActiveItem(0);
 		}
 		break;
 	case MouseEvent::HOVER:
-		new_st.hot_item = id;
-		if (new_st.active_item == id) {
-			new_st.active_item = 0;
+		new_st.SetHotItem(id);
+		if (new_st.GetActiveItem() == id &&
+			new_st.GetPopupItem() != id) {
+			new_st.SetActiveItem(0);
 		}
 		break;
 	case MouseEvent::HOLD:
 	case MouseEvent::DOWN:
-		new_st.hot_item    = id;
-		new_st.active_item = id;
+		new_st.SetHotItem(id);
+		new_st.SetActiveItem(id);
 		if (drag) {
-			new_st.drag_locked = true;
+			new_st.SetDragLocked(true);
 		}
 		break;
 	case MouseEvent::UP:
-		new_st.hot_item = id;
-		if (new_st.active_item == id) {
-			new_st.active_item = 0;
+		new_st.SetHotItem(id);
+		if (new_st.GetActiveItem() == id &&
+			new_st.GetPopupItem() != id) {
+			new_st.SetActiveItem(0);
 		}
 		break;
 	}
 	return new_st;
 }
 
-Color get_frame_bg_color(ID_TYPE id, const GuiState& gui_st)
+Color get_group3_item_color(ID_TYPE id, const GuiState& gui_st, Color start)
 {
 	Color col;
-	if (gui_st.hot_item == id) {
-		if (gui_st.active_item == id) {
-			col = Color::FrameBgActive;
+	if (gui_st.GetHotItem() == id) {
+		if (gui_st.GetActiveItem() == id) {
+			col = static_cast<Color>(static_cast<int>(start) + 2);
 		} else {
-			col = Color::FrameBgHovered;
+			col = static_cast<Color>(static_cast<int>(start) + 1);
 		}
 	} else {
-		col = Color::FrameBg;
-	}
-	return col;
-}
-
-Color get_button_color(ID_TYPE id, const GuiState& gui_st)
-{
-	Color col;
-	if (gui_st.hot_item == id) {
-		if (gui_st.active_item == id) {
-			col = Color::ButtonActive;
-		} else {
-			col = Color::ButtonHovered;
-		}
-	} else {
-		col = Color::Button;
+		col = start;
 	}
 	return col;
 }

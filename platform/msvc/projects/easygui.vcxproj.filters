@@ -4,9 +4,6 @@
     <ClCompile Include="..\..\..\source\Window.cpp">
       <Filter>widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\Slider.cpp">
-      <Filter>widgets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\Utility.cpp">
       <Filter>utility</Filter>
     </ClCompile>
@@ -21,12 +18,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\ImGui.cpp">
       <Filter>utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\Label.cpp">
-      <Filter>widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\Checkbox.cpp">
-      <Filter>widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Button.cpp">
       <Filter>widgets\button</Filter>
@@ -43,12 +34,27 @@
     <ClCompile Include="..\..\..\source\RenderBuffer.cpp">
       <Filter>dataset\render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\Combo.cpp">
+      <Filter>widgets\list</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Slider.cpp">
+      <Filter>widgets\list</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Label.cpp">
+      <Filter>widgets\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Selectable.cpp">
+      <Filter>widgets\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Checkbox.cpp">
+      <Filter>widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\IOState.cpp">
+      <Filter>dataset\state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\easygui\Window.h">
-      <Filter>widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\easygui\Slider.h">
       <Filter>widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\easygui\Entity.h">
@@ -77,12 +83,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\easygui\ImGui.h">
       <Filter>utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\easygui\Label.h">
-      <Filter>widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\easygui\Checkbox.h">
-      <Filter>widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\easygui\Button.h">
       <Filter>widgets\button</Filter>
@@ -114,6 +114,21 @@
     <ClInclude Include="..\..\..\include\easygui\RenderBuffer.h">
       <Filter>dataset\render</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Combo.h">
+      <Filter>widgets\list</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Slider.h">
+      <Filter>widgets\list</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Label.h">
+      <Filter>widgets\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Selectable.h">
+      <Filter>widgets\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Checkbox.h">
+      <Filter>widgets\button</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="widgets">
@@ -139,6 +154,12 @@
     </Filter>
     <Filter Include="dataset\render">
       <UniqueIdentifier>{df4e1ca2-e9ca-4e49-aa03-a9474cbc4ca3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="widgets\list">
+      <UniqueIdentifier>{ced72099-c47b-45b9-a702-581a74708832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="widgets\text">
+      <UniqueIdentifier>{82ab33e3-a450-4278-9784-0f4af7d3f915}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

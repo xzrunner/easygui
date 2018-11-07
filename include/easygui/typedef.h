@@ -19,6 +19,7 @@ enum class MouseEvent
 	UP,
 	HOLD,
 	HOVER,
+	CLICK,
 };
 
 enum class Direction

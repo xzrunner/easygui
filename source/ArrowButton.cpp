@@ -22,7 +22,7 @@ tess::Painter arrow_button_render(ID_TYPE id, const ArrowButton& ab, const Conte
 
 	auto& pp = ab.props;
 
-	const Color col = get_button_color(id, ctx.gui);
+	const Color col = get_group3_item_color(id, ctx.gui, Color::Button);
 	render_frame(pt, { pp.x, pp.y }, { pp.x + pp.height, pp.y + pp.height }, ctx.style.colors[(int)col], ctx.style);
 
 	render_arrow(pt, { pp.x, pp.y }, pp.height, pp.dir, ctx.style.colors[(int)Color::Text]);

@@ -14,6 +14,7 @@
     <ClInclude Include="..\..\..\include\easygui\ArrowButton.h" />
     <ClInclude Include="..\..\..\include\easygui\Callback.h" />
     <ClInclude Include="..\..\..\include\easygui\Checkbox.h" />
+    <ClInclude Include="..\..\..\include\easygui\Combo.h" />
     <ClInclude Include="..\..\..\include\easygui\CompType.h" />
     <ClInclude Include="..\..\..\include\easygui\Context.h" />
     <ClInclude Include="..\..\..\include\easygui\Entity.h" />
@@ -24,6 +25,7 @@
     <ClInclude Include="..\..\..\include\easygui\Label.h" />
     <ClInclude Include="..\..\..\include\easygui\RadioButton.h" />
     <ClInclude Include="..\..\..\include\easygui\RenderBuffer.h" />
+    <ClInclude Include="..\..\..\include\easygui\Selectable.h" />
     <ClInclude Include="..\..\..\include\easygui\Slider.h" />
     <ClInclude Include="..\..\..\include\easygui\CompStorage.h" />
     <ClInclude Include="..\..\..\include\easygui\GuiState.h" />
@@ -39,11 +41,14 @@
     <ClCompile Include="..\..\..\source\ArrowButton.cpp" />
     <ClCompile Include="..\..\..\source\Callback.cpp" />
     <ClCompile Include="..\..\..\source\Checkbox.cpp" />
+    <ClCompile Include="..\..\..\source\Combo.cpp" />
     <ClCompile Include="..\..\..\source\EntityFactory.cpp" />
     <ClCompile Include="..\..\..\source\ImGui.cpp" />
+    <ClCompile Include="..\..\..\source\IOState.cpp" />
     <ClCompile Include="..\..\..\source\Label.cpp" />
     <ClCompile Include="..\..\..\source\RadioButton.cpp" />
     <ClCompile Include="..\..\..\source\RenderBuffer.cpp" />
+    <ClCompile Include="..\..\..\source\Selectable.cpp" />
     <ClCompile Include="..\..\..\source\Slider.cpp" />
     <ClCompile Include="..\..\..\source\RenderStyle.cpp" />
     <ClCompile Include="..\..\..\source\System.cpp" />

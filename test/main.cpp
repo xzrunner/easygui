@@ -81,17 +81,17 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
 	{
 		if (action == GLFW_PRESS) {
-			egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_LEFT_DOWN, x, y));
+			CTX.input_events.emplace_back(egui::InputType::MOUSE_LEFT_DOWN, x, y);
 		} else if (action == GLFW_RELEASE) {
-			egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_LEFT_UP, x, y));
+			CTX.input_events.emplace_back(egui::InputType::MOUSE_LEFT_UP, x, y);
 		}
 	}
 	else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 	{
 		if (action == GLFW_PRESS) {
-			egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_RIGHT_DOWN, x, y));
+			CTX.input_events.emplace_back(egui::InputType::MOUSE_RIGHT_DOWN, x, y);
 		} else if (action == GLFW_RELEASE) {
-			egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_RIGHT_UP, x, y));
+			CTX.input_events.emplace_back(egui::InputType::MOUSE_RIGHT_UP, x, y);
 		}
 	}
 }
@@ -107,9 +107,9 @@ static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
 	int y = static_cast<int>(proj.y);
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS ||
 		glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-		egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_DRAG, x, y));
+		CTX.input_events.emplace_back(egui::InputType::MOUSE_DRAG, x, y);
 	} else {
-		egui::feed_event(CTX.io, egui::InputEvent(egui::InputType::MOUSE_MOVE, x, y));
+		CTX.input_events.emplace_back(egui::InputType::MOUSE_MOVE, x, y);
 	}
 }
 
@@ -348,6 +348,8 @@ void draw()
 	auto sr = std::static_pointer_cast<rg::SpriteRenderer>(rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE));
 	ur::Blackboard::Instance()->GetRenderContext().BindTexture(CURR_TEXID, 0);
 
+	auto old_st = CTX.gui;
+
 	CTX.rbuf.Rewind();
 
 	uint32_t uid = 1;
@@ -396,11 +398,24 @@ void draw()
 		printf("arrow right\n");
 	}
 
+	static bool sel0 = true;
+	egui::selectable(uid++, "selectable 0", &sel0, -200, 160, 100, CTX, last_frame_dirty);
+	static bool sel1 = false;
+	egui::selectable(uid++, "selectable 1", &sel1, -200, 140, 100, CTX, last_frame_dirty);
+
+	static int curr_item = 0;
+	const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
+	egui::combo(uid++, "combo", &curr_item, items, sizeof(items) / sizeof(items[0]), -200, 50, 100, CTX, last_frame_dirty);
+
 	CTX.rbuf.InitVAO();
 	CTX.rbuf.Draw();
 
 	last_frame_dirty = facade::Facade::Instance()->Flush(false);
 	rg::RenderMgr::Instance()->Flush();
+
+	if (CTX.rbuf.NeedRebuild()) {
+		CTX.gui = old_st;
+	}
 
 //	facade::DTex::Instance()->DebugDraw();
 }
@@ -410,13 +425,20 @@ void update()
 	static uint32_t last_time = 0;
 	uint32_t curr_time = glp_get_time();
 
-	float dt = (curr_time - last_time) / 1000000.0f;
-
-	if (CTX.io.hold_time >= 0) {
-		CTX.io.hold_time -= dt;
+	const float dt = (curr_time - last_time) / 1000000.0f;
+	const float ht = CTX.io.GetHoldTime();
+	if (ht >= 0) {
+		CTX.io.SetHoldTime(ht - dt);
 	}
 
 	last_time = curr_time;
+
+	if (!CTX.rbuf.NeedRebuild())
+	{
+		CTX.io.Clear();
+		CTX.io = CTX.io.FeedEvent(CTX.input_events);
+		CTX.input_events.clear();
+	}
 }
 
 }

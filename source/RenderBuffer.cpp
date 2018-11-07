@@ -92,7 +92,7 @@ bool RenderBuffer::Advance(ID_TYPE id, const tess::Painter& pt)
 	if (m_ptr == sz)
 	{
 		m_pt->AddPainter(pt);
-		m_items.push_back({ id, n_vert, n_index });
+		m_items.push_back({ id, n_vert, n_index, n_tex });
 	}
 	else if (m_ptr < sz)
 	{
@@ -136,7 +136,8 @@ void RenderBuffer::Draw() const
 
 void RenderBuffer::Rebuild()
 {
-	printf("rebuild\n");
+	static int count = 0;
+	printf("rebuild [%d]\n", count++);
 
 	m_pt->Clear();
 
@@ -163,7 +164,8 @@ void RenderBuffer::UpdateVertexBuf()
 	rc.UpdateBufferRaw(ur::BUFFER_VERTEX, m_vbo, buf.vertices.data(), buf.vertices.size() * sizeof(tess::Painter::Vertex));
 	rc.UpdateBufferRaw(ur::BUFFER_INDEX, m_ebo, buf.indices.data(), buf.indices.size() * sizeof(unsigned short));
 
-	printf("update vbo, vb size %d, eb size, %d\n", buf.vertices.size(), buf.indices.size());
+	static int count = 0;
+	printf("update vbo, vb size %d, eb size %d [%d]\n", buf.vertices.size(), buf.indices.size(), count++);
 }
 
 void RenderBuffer::UpdateVertexBufCheckSize()
@@ -206,7 +208,8 @@ void RenderBuffer::BuildVAO()
 	m_last_vbo_sz = vi.vn;
 	m_last_ebo_sz = vi.in;
 
-	printf("create vao %d, vb size %d, eb size, %d\n", m_vao, vi.vn, vi.in);
+	static int count = 0;
+	printf("create vao %d, vb size %d, eb size %d [%d]\n", m_vao, vi.vn, vi.in, count++);
 }
 
 }

@@ -37,7 +37,7 @@ tess::Painter button_render(ID_TYPE id, const Button& btn, const Context& ctx)
 
 	auto& pp = btn.props;
 
-	const Color col = get_button_color(id, ctx.gui);
+	const Color col = get_group3_item_color(id, ctx.gui, Color::Button);
 	auto sz = calc_tot_sz(btn.props.label_sz, ctx.style);
 	render_frame(pt, { pp.x, pp.y }, { pp.x + sz.x, pp.y + sz.y }, ctx.style.colors[(int)col], ctx.style);
 

@@ -25,12 +25,16 @@ struct Checkbox
 	{
 		bool       value = false;
 		MouseEvent event = MouseEvent::NONE;
+
+		bool NeedRender(const State& next) const {
+			return value != next.value;
+		}
 	} state;
 };
 
 struct Context;
 
-Checkbox::State checkbox_update(ID_TYPE id, const Checkbox& cb, const Context& ctx);
-tess::Painter   checkbox_render(ID_TYPE id, const Checkbox& cb, const Context& ctx);
+Checkbox::State checkbox_update(ID_TYPE id, const Checkbox& cbox, const Context& ctx);
+tess::Painter   checkbox_render(ID_TYPE id, const Checkbox& cbox, const Context& ctx);
 
 }

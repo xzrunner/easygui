@@ -1,45 +1,45 @@
 #pragma once
 
-#include <SM_Vector.h>
-
 #include "easygui/typedef.h"
+
+#include <SM_Vector.h>
 
 namespace tess { class Painter; }
 
 namespace egui
 {
 
-struct Slider
+struct Selectable
 {
 	struct Props
 	{
 		float x = 0;
 		float y = 0;
-		float length = 100;
-
-		float max_val = 1;
+		float length = 0;
 
 		const char* label = nullptr;
 		sm::vec2    label_sz;
-
-		bool verticle = false;
 
 	} props;
 
 	struct State
 	{
-		float      value = 0;
+		bool       value = false;
 		MouseEvent event = MouseEvent::NONE;
 
 		bool NeedRender(const State& next) const {
 			return value != next.value;
 		}
 	} state;
-};
+
+}; // Selectable
 
 struct Context;
+struct RenderStyle;
 
-Slider::State slider_update(ID_TYPE id, const Slider& slide, const Context& ctx);
-tess::Painter slider_render(ID_TYPE id, const Slider& slide, const Context& ctx);
+Selectable::State selectable_update(ID_TYPE id, const Selectable& sel, const Context& ctx);
+tess::Painter     selectable_render(ID_TYPE id, const Selectable& sel, const Context& ctx);
+
+float get_selectable_vert_padding(const RenderStyle& style);
 
 }

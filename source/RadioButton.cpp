@@ -41,7 +41,7 @@ tess::Painter radio_button_render(ID_TYPE id, const RadioButton& rb, const Conte
 	const float half_sz = sz.y * 0.5f;
 	const sm::vec2 center(pp.x + half_sz, pp.y + half_sz);
 	const float radius = half_sz;
-	const uint32_t color = ctx.style.colors[(int)get_frame_bg_color(id, ctx.gui)];
+	const uint32_t color = ctx.style.colors[(int)get_group3_item_color(id, ctx.gui, Color::FrameBg)];
 	pt.AddCircleFilled(center, radius, color);
 
 	if (pp.value)

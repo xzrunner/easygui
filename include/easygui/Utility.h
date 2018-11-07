@@ -11,10 +11,8 @@ namespace tess { class Painter; }
 namespace egui
 {
 
-struct GuiState;
-struct IOState;
-
-void feed_event(IOState& state, InputEvent event/*, const sm::vec2& pos, const sm::vec2& scale*/);
+class GuiState;
+class IOState;
 
 bool region_hit(const IOState& state, float x, float y, float w, float h);
 
@@ -26,7 +24,6 @@ void render_arrow(tess::Painter& pt, const sm::vec2& min, float height, Directio
 MouseEvent calc_mouse_event(const GuiState& gui_st, const IOState& io_st, ID_TYPE id, float x, float y, float w, float h);
 GuiState   calc_gui_state(MouseEvent event, const GuiState& gui_st, ID_TYPE id, bool drag = false);
 
-Color get_frame_bg_color(ID_TYPE id, const GuiState& gui_st);
-Color get_button_color(ID_TYPE id, const GuiState& gui_st);
+Color get_group3_item_color(ID_TYPE id, const GuiState& gui_st, Color start);
 
 }

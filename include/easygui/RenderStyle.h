@@ -9,6 +9,10 @@ namespace egui
 
 enum class Color
 {
+	WindowBg,
+	ChildBg,
+	PopupBg,
+
 	Border,
 	BorderShadow,
 
@@ -20,6 +24,10 @@ enum class Color
 	Button,
 	ButtonHovered,
 	ButtonActive,
+
+	Header,
+	HeaderHovered,
+	HeaderActive,
 
 	FrameBg,
 	FrameBgHovered,
@@ -41,6 +49,8 @@ struct RenderStyle
 	sm::vec2 frame_padding;
 	float    frame_rounding;
 	float    frame_border_size;
+	sm::vec2 item_spacing;
+	sm::vec2 item_inner_spacing;
 	float    grab_min_size;
 	float    grab_rounding;
 

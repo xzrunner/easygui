@@ -26,6 +26,10 @@ struct RadioButton
 	struct State
 	{
 		MouseEvent event = MouseEvent::NONE;
+
+		bool NeedRender(const State& next) const {
+			return false;
+		}
 	} state;
 };
 

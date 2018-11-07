@@ -38,34 +38,35 @@ void render_check_mark(tess::Painter& pt, const sm::vec2& pos, uint32_t color, f
 namespace egui
 {
 
-Checkbox::State checkbox_update(ID_TYPE id, const Checkbox& cb, const Context& ctx)
+Checkbox::State checkbox_update(ID_TYPE id, const Checkbox& cbox, const Context& ctx)
 {
-	auto sz = calc_tot_sz(cb.props.label_sz, ctx.style);
+	Checkbox::State st = cbox.state;
 
-	Checkbox::State st = cb.state;
-	st.event = calc_mouse_event(ctx.gui, ctx.io, id, cb.props.x, cb.props.y, sz.x, sz.y);
+	auto sz = calc_tot_sz(cbox.props.label_sz, ctx.style);
+	st.event = calc_mouse_event(ctx.gui, ctx.io, id, cbox.props.x, cbox.props.y, sz.x, sz.y);
 	if (st.event == MouseEvent::DOWN) {
 		st.value = !st.value;
 	}
+
 	return st;
 }
 
-tess::Painter checkbox_render(ID_TYPE id, const Checkbox& cb, const Context& ctx)
+tess::Painter checkbox_render(ID_TYPE id, const Checkbox& cbox, const Context& ctx)
 {
 	tess::Painter pt;
 
-	auto sz = calc_tot_sz(cb.props.label_sz, ctx.style);
+	auto sz = calc_tot_sz(cbox.props.label_sz, ctx.style);
 
-	auto& pp = cb.props;
+	auto& pp = cbox.props;
 
 	sm::vec2 check_sz(sz.y, sz.y);
 
 	sm::vec2 min(pp.x, pp.y);
 	sm::vec2 max(pp.x + sz.y, pp.y + sz.y);
-	uint32_t color = ctx.style.colors[(int)get_frame_bg_color(id, ctx.gui)];
+	uint32_t color = ctx.style.colors[(int)get_group3_item_color(id, ctx.gui, Color::FrameBg)];
 	render_frame(pt, min, max, color, ctx.style);
 
-	if (cb.state.value)
+	if (cbox.state.value)
 	{
 		const float check_sz = std::min(sz.x, sz.y);
 		const float pad = std::max(1.0f, (float)(int)(check_sz / 6.0f));

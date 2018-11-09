@@ -345,12 +345,9 @@ void draw()
 {
 	static bool last_frame_dirty = false;
 
-	auto sr = std::static_pointer_cast<rg::SpriteRenderer>(rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE));
 	ur::Blackboard::Instance()->GetRenderContext().BindTexture(CURR_TEXID, 0);
 
-	auto old_st = CTX.gui;
-
-	CTX.rbuf.Rewind();
+	CTX.BeginDraw();
 
 	uint32_t uid = 1;
 	if (egui::button(uid++, "btn0", 200, 300, 100, 50, CTX, last_frame_dirty)) {
@@ -407,15 +404,10 @@ void draw()
 	const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
 	egui::combo(uid++, "combo", &curr_item, items, sizeof(items) / sizeof(items[0]), -200, 50, 100, CTX, last_frame_dirty);
 
-	CTX.rbuf.InitVAO();
-	CTX.rbuf.Draw();
+	CTX.EndDraw();
 
 	last_frame_dirty = facade::Facade::Instance()->Flush(false);
 	rg::RenderMgr::Instance()->Flush();
-
-	if (CTX.rbuf.NeedRebuild()) {
-		CTX.gui = old_st;
-	}
 
 //	facade::DTex::Instance()->DebugDraw();
 }
@@ -424,21 +416,10 @@ void update()
 {
 	static uint32_t last_time = 0;
 	uint32_t curr_time = glp_get_time();
-
 	const float dt = (curr_time - last_time) / 1000000.0f;
-	const float ht = CTX.io.GetHoldTime();
-	if (ht >= 0) {
-		CTX.io.SetHoldTime(ht - dt);
-	}
-
 	last_time = curr_time;
 
-	if (!CTX.rbuf.NeedRebuild())
-	{
-		CTX.io.Clear();
-		CTX.io = CTX.io.FeedEvent(CTX.input_events);
-		CTX.input_events.clear();
-	}
+	CTX.Update(dt);
 }
 
 }

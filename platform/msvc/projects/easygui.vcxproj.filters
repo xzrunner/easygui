@@ -52,6 +52,9 @@
     <ClCompile Include="..\..\..\source\IOState.cpp">
       <Filter>dataset\state</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\Context.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\easygui\Window.h">

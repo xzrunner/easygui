@@ -42,6 +42,7 @@
     <ClCompile Include="..\..\..\source\Callback.cpp" />
     <ClCompile Include="..\..\..\source\Checkbox.cpp" />
     <ClCompile Include="..\..\..\source\Combo.cpp" />
+    <ClCompile Include="..\..\..\source\Context.cpp" />
     <ClCompile Include="..\..\..\source\EntityFactory.cpp" />
     <ClCompile Include="..\..\..\source\ImGui.cpp" />
     <ClCompile Include="..\..\..\source\IOState.cpp" />

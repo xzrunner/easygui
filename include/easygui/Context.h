@@ -25,6 +25,14 @@ struct Context
 	// input
 	std::vector<InputEvent> input_events;
 
+	void BeginDraw();
+	void EndDraw();
+
+	void Update(float dt);
+
+private:
+	GuiState m_old_gui;
+
 };
 
 }

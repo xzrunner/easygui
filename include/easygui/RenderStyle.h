@@ -33,6 +33,11 @@ enum class Color
 	FrameBgHovered,
 	FrameBgActive,
 
+	ScrollbarBg,
+	ScrollbarGrab,
+	ScrollbarGrabHovered,
+	ScrollbarGrabActive,
+
 	Text,
 	TextDisabled,
 

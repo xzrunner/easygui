@@ -17,7 +17,7 @@ class IOState;
 bool region_hit(const IOState& state, float x, float y, float w, float h);
 
 void draw_rect(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint32_t color);
-void render_frame(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint32_t color, const RenderStyle& rs, bool border = false, uint32_t rounding = 0);
+void render_frame(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint32_t color, const RenderStyle& rs, bool border = false, float rounding = 0);
 void render_text(tess::Painter& pt, const char* str, float x, float y, float height, const RenderStyle& rs, bool vert = false);
 void render_arrow(tess::Painter& pt, const sm::vec2& min, float height, Direction dir, uint32_t color);
 

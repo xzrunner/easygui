@@ -21,13 +21,13 @@ void draw_rect(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint
 	pt.AddRectFilled(min, max, color);
 }
 
-void render_frame(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint32_t color, const RenderStyle& rs, bool border, uint32_t rounding)
+void render_frame(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, uint32_t color, const RenderStyle& rs, bool border, float rounding)
 {
 	pt.AddRectFilled(min, max, color);
 	auto& border_size = rs.frame_border_size;
 	if (border && border_size > 0) {
-		pt.AddRect(min + sm::vec2(1, 1), max + sm::vec2(1, 1), rs.colors[(int)Color::BorderShadow], border_size, rounding/*, ImDrawCornerFlags_All*/);
-		pt.AddRect(min, max, rs.colors[(int)Color::Border], border_size, rounding/*, ImDrawCornerFlags_All*/);
+		pt.AddRect(min + sm::vec2(1, 1), max + sm::vec2(1, 1), rs.colors[(int)Color::BorderShadow], border_size, rounding, tess::CORNER_FLAGS_ALL);
+		pt.AddRect(min, max, rs.colors[(int)Color::Border], border_size, rounding, tess::CORNER_FLAGS_ALL);
 	}
 }
 

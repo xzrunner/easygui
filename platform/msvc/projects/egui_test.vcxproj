@@ -181,8 +181,8 @@
       </DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib;..\..\..\..\external\lua\lib;..\..\..\..\external\freetype\lib;..\..\..\..\external\assimp\lib;..\..\..\..\external\libpng\lib;..\..\..\..\external\libjpeg\lib;..\..\..\..\external\zlib\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3d.lib;OpenGL32.lib;glew32sd.lib;luad.lib;freetype281d.lib;assimp-vc140-mtd.lib;libpng16d.lib;jpeg.lib;zlibd.lib;libboost_filesystem-vc140-mt-gd-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib;..\..\..\..\external\lua\lib;..\..\..\..\external\freetype\lib;..\..\..\..\external\assimp\lib;..\..\..\..\external\libpng\lib;..\..\..\..\external\libjpeg\lib;..\..\..\..\external\zlib\lib;..\..\..\..\external\rttr\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3d.lib;OpenGL32.lib;glew32sd.lib;luad.lib;freetype281d.lib;assimp-vc140-mtd.lib;libpng16d.lib;jpeg.lib;zlibd.lib;rttr_core_d.lib;libboost_filesystem-vc140-mt-gd-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -200,8 +200,8 @@
       </DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib;..\..\..\..\external\lua\lib;..\..\..\..\external\freetype\lib;..\..\..\..\external\assimp\lib;..\..\..\..\external\libpng\lib;..\..\..\..\external\libjpeg\lib;..\..\..\..\external\zlib\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;OpenGL32.lib;glew32s.lib;lua.lib;freetype281.lib;assimp-vc140-mt.lib;libpng16.lib;jpeg.lib;zlib.lib;libboost_filesystem-vc140-mt-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\external\glfw\lib;..\..\..\..\external\gl\lib;..\..\..\..\external\boost\lib;..\..\..\..\external\lua\lib;..\..\..\..\external\freetype\lib;..\..\..\..\external\assimp\lib;..\..\..\..\external\libpng\lib;..\..\..\..\external\libjpeg\lib;..\..\..\..\external\zlib\lib;..\..\..\..\external\rttr\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;OpenGL32.lib;glew32s.lib;lua.lib;freetype281.lib;assimp-vc140-mt.lib;libpng16.lib;jpeg.lib;zlib.lib;rttr_core.lib;libboost_filesystem-vc140-mt-1_61.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

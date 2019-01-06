@@ -189,6 +189,7 @@ void init_render()
 	auto shader = sr->GetShader();
 	shader->Use();
 	shader->SetMat4("u_model", sm::mat4().x);
+//    shader->UpdateModelMat(sm::mat4().x);
 
 	egui::style_colors_dark(CTX.style);
 

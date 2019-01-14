@@ -59,6 +59,8 @@ bool button(ID_TYPE id, const char* label, float x, float y, float width, float 
 bool slider(ID_TYPE id, const char* label, float* val, float x, float y, float height, float max, bool verticle,
       	    Context& ctx, bool force_draw)
 {
+    float old_val = *val;
+
 	Slider sd({ { x, y, height, max, label, Callback::GetLabelSize(label), verticle }, { *val } });
 	auto st = slider_update(id, sd, ctx);
 
@@ -78,7 +80,7 @@ bool slider(ID_TYPE id, const char* label, float* val, float x, float y, float h
 		*val = st.value;
 	}
 
-	return *val != sd.state.value;
+    return *val != old_val;
 }
 
 void label(ID_TYPE id, const char* text, float x, float y, Context& ctx, bool force_draw)

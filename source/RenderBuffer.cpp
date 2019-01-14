@@ -161,6 +161,10 @@ void RenderBuffer::UpdateVertexBuf()
 	Callback::RelocateTexcoords(pt);
 
 	auto& buf = pt.GetBuffer();
+    if (buf.vertices.empty() || buf.indices.empty()) {
+        return;
+    }
+
 	rc.UpdateBufferRaw(ur::BUFFER_VERTEX, m_vbo, buf.vertices.data(), buf.vertices.size() * sizeof(tess::Painter::Vertex));
 	rc.UpdateBufferRaw(ur::BUFFER_INDEX, m_ebo, buf.indices.data(), buf.indices.size() * sizeof(unsigned short));
 

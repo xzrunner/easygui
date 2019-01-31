@@ -229,10 +229,10 @@ void init_render()
 		float dy = len * sin(angle);
 		mat.Translate(pos.x + dx, pos.y + dy);
 
-		pt2::Color col;
+		pt0::Color col;
 		col.FromABGR(color);
 
-		facade::GTxt::Instance()->Draw(label, TEXTBOX, mat, col, pt2::Color(0, 0, 0), 0, false, &pt, false);
+		facade::GTxt::Instance()->Draw(label, TEXTBOX, mat, col, pt0::Color(0, 0, 0), 0, false, &pt, false);
 	};
 	cb.relocate_texcoords = [](tess::Painter& pt)
 	{

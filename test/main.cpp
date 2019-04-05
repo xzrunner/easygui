@@ -8,9 +8,9 @@
 #include <unirender/gl/RenderContext.h>
 #include <tessellation/Palette.h>
 #include <tessellation/Painter.h>
-#include <rendergraph/RenderMgr.h>
-#include <rendergraph/SpriteRenderer.h>
-#include <rendergraph/Callback.h>
+#include <renderpipeline/RenderMgr.h>
+#include <renderpipeline/SpriteRenderer.h>
+#include <renderpipeline/Callback.h>
 #include <painting0/Shader.h>
 #include <painting2/WindowContext.h>
 #include <painting2/Blackboard.h>
@@ -159,7 +159,7 @@ void init_render()
 {
 	auto ur_rc = std::make_shared<ur::gl::RenderContext>(4096, [&](ur::RenderContext& ctx) {
 		ctx.EnableFlushCB(false);
-		rg::RenderMgr::Instance()->Flush();
+		rp::RenderMgr::Instance()->Flush();
 		ctx.EnableFlushCB(true);
 	});
 	ur::Blackboard::Instance()->SetRenderContext(ur_rc);
@@ -171,8 +171,8 @@ void init_render()
 
 	auto wc = std::make_shared<pt2::WindowContext>(static_cast<float>(WIDTH), static_cast<float>(HEIGHT), WIDTH, HEIGHT);
 	pt2::Blackboard::Instance()->SetWindowContext(wc);
-	auto sr = std::static_pointer_cast<rg::SpriteRenderer>(
-		rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE)
+	auto sr = std::static_pointer_cast<rp::SpriteRenderer>(
+		rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE)
 	);
 	wc->Bind();
 
@@ -194,7 +194,7 @@ void init_render()
 	egui::style_colors_dark(CTX.style);
 
 	// rendergraph callback
-	rg::Callback::Funs rg_cb;
+	rp::Callback::Funs rg_cb;
 	rg_cb.query_cached_tex_quad = [](size_t tex_id, const sm::irect& r, int& out_tex_id)->const float* {
 		sx::UID uid = sx::ResourceUID::TexQuad(tex_id, r.xmin, r.ymin, r.xmax, r.ymax);
 		int block_id;
@@ -204,7 +204,7 @@ void init_render()
 		sx::UID uid = sx::ResourceUID::TexQuad(tex_id, r.xmin, r.ymin, r.xmax, r.ymax);
 		facade::LoadingList::Instance()->AddSymbol(uid, tex_id, tex_w, tex_h, r);
 	};
-	rg::Callback::RegisterCallback(rg_cb);
+	rp::Callback::RegisterCallback(rg_cb);
 
 	// egui callback
 	TEXTBOX.width = 300;
@@ -241,7 +241,7 @@ void init_render()
 			assert(begin < end);
 			sm::irect qr(0, 0, tex.w, tex.h);
 			int cached_texid;
-			auto cached_texcoords = rg::Callback::QueryCachedTexQuad(tex.id, qr, cached_texid);
+			auto cached_texcoords = rp::Callback::QueryCachedTexQuad(tex.id, qr, cached_texid);
 			if (cached_texcoords)
 			{
 				CURR_TEXID = cached_texid;
@@ -260,7 +260,7 @@ void init_render()
 			}
 			else
 			{
-				rg::Callback::AddCacheSymbol(tex.id, tex.w, tex.h, qr);
+				rp::Callback::AddCacheSymbol(tex.id, tex.w, tex.h, qr);
 			}
 		};
 		auto relocate_label = [](const Texture& tex, tess::Painter::Buffer& buf, int begin, int end)
@@ -284,7 +284,7 @@ void init_render()
 				qr.ymax = static_cast<int>(tex.h * max.y);
 
 				int cached_texid;
-				auto cached_texcoords = rg::Callback::QueryCachedTexQuad(tex.id, qr, cached_texid);
+				auto cached_texcoords = rp::Callback::QueryCachedTexQuad(tex.id, qr, cached_texid);
 				if (cached_texcoords)
 				{
 					CURR_TEXID = cached_texid;
@@ -300,7 +300,7 @@ void init_render()
 				}
 				else
 				{
-					rg::Callback::AddCacheSymbol(tex.id, tex.w, tex.h, qr);
+					rp::Callback::AddCacheSymbol(tex.id, tex.w, tex.h, qr);
 				}
 			}
 		};
@@ -408,7 +408,7 @@ void draw()
 	CTX.EndDraw();
 
 	last_frame_dirty = facade::Facade::Instance()->Flush(false);
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 
 //	facade::DTex::Instance()->DebugDraw();
 }

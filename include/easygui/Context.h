@@ -25,8 +25,8 @@ struct Context
 	// input
 	std::vector<InputEvent> input_events;
 
-	void BeginDraw();
-	void EndDraw();
+	void BeginDraw(const ur2::Device& dev);
+	void EndDraw(const ur2::Device& dev, ur2::Context& ctx);
 
 	void Update(float dt);
 

@@ -3,17 +3,17 @@
 namespace egui
 {
 
-void Context::BeginDraw()
+void Context::BeginDraw(const ur2::Device& dev)
 {
 	m_old_gui = gui;
 
-	rbuf.Rewind();
+	rbuf.Rewind(dev);
 }
 
-void Context::EndDraw()
+void Context::EndDraw(const ur2::Device& dev, ur2::Context& ctx)
 {
-	rbuf.InitVAO();
-	rbuf.Draw();
+	rbuf.InitVAO(dev);
+	rbuf.Draw(ctx);
 
 	if (rbuf.NeedRebuild()) {
 		gui = m_old_gui;

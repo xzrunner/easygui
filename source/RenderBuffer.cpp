@@ -214,7 +214,7 @@ void RenderBuffer::BuildVAO(const ur2::Device& dev)
         ur2::ComponentDataType::Float, 2, 8, 20);
     // col
     vbuf_attrs[2] = std::make_shared<ur2::VertexBufferAttribute>(
-        ur2::ComponentDataType::Byte, 4, 16, 20);
+        ur2::ComponentDataType::UnsignedByte, 4, 16, 20);
     m_va->SetVertexBufferAttrs(vbuf_attrs);
 
 	m_last_vbo_sz = buf.vertices.size();

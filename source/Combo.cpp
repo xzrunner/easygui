@@ -139,7 +139,7 @@ tess::Painter combo_render(ID_TYPE id, const Combo& com, const Context& ctx)
 	{
 		const float x = pp.x + ctx.style.item_inner_spacing.x;
 		const float y = pp.y/* + ctx.style.frame_padding.y*/;	// fixme: layout
-		render_text(pt, pp.items[idx], x, y, sz.y, ctx.style);
+		render_text(*ctx.ctx, pt, pp.items[idx], x, y, sz.y, ctx.style);
 	}
 
 	// label
@@ -147,7 +147,7 @@ tess::Painter combo_render(ID_TYPE id, const Combo& com, const Context& ctx)
 	{
 		const float x = pp.x + ctx.style.frame_padding.x + sz.x;
 		const float y = pp.y + ctx.style.frame_padding.y;
-		render_text(pt, pp.label, x, y, pp.label_sz.y, ctx.style);
+		render_text(*ctx.ctx, pt, pp.label, x, y, pp.label_sz.y, ctx.style);
 	}
 
 	// body

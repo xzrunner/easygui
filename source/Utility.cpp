@@ -31,7 +31,7 @@ void render_frame(tess::Painter& pt, const sm::vec2& min, const sm::vec2& max, u
 	}
 }
 
-void render_text(tess::Painter& pt, const char* str, float x, float y, float height, const RenderStyle& rs, bool vert)
+void render_text(ur2::Context& ctx, tess::Painter& pt, const char* str, float x, float y, float height, const RenderStyle& rs, bool vert)
 {
 	float angle = 0;
 	if (vert)
@@ -44,7 +44,7 @@ void render_text(tess::Painter& pt, const char* str, float x, float y, float hei
 		y += height * 0.5f;
 	}
 	Label label({ x, y, angle, str });
-	pt.AddPainter(label_render(label, rs));
+	pt.AddPainter(label_render(ctx, label, rs));
 }
 
 void render_arrow(tess::Painter& pt, const sm::vec2& min, float height, Direction dir, uint32_t color)

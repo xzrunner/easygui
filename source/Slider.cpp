@@ -111,7 +111,7 @@ tess::Painter slider_render(ID_TYPE id, const Slider& slide, const Context& ctx)
 		x = pp.x + ctx.style.frame_padding.x;
 		y = pp.y - ctx.style.frame_padding.x + frame_h * 0.5f;
 	}
-	render_text(pt, val_str.c_str(), x, y, val_sz.y, ctx.style, pp.verticle);
+	render_text(*ctx.ctx, pt, val_str.c_str(), x, y, val_sz.y, ctx.style, pp.verticle);
 
 	// label
 	if (pp.label)
@@ -123,7 +123,7 @@ tess::Painter slider_render(ID_TYPE id, const Slider& slide, const Context& ctx)
 			x = pp.x + ctx.style.frame_padding.x;
 			y = pp.y - ctx.style.frame_padding.y;
 		}
-		render_text(pt, pp.label, x, y, pp.label_sz.y, ctx.style, pp.verticle);
+		render_text(*ctx.ctx, pt, pp.label, x, y, pp.label_sz.y, ctx.style, pp.verticle);
 	}
 
 	return pt;

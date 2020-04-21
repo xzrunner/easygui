@@ -55,7 +55,7 @@ tess::Painter radio_button_render(ID_TYPE id, const RadioButton& rb, const Conte
 	{
 		const float x = pp.x + ctx.style.frame_padding.x + sz.y;
 		const float y = pp.y + ctx.style.frame_padding.y;
-		render_text(pt, pp.label, x, y, pp.label_sz.y, ctx.style);
+		render_text(*ctx.ctx, pt, pp.label, x, y, pp.label_sz.y, ctx.style);
 	}
 
 	return pt;

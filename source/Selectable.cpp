@@ -53,7 +53,7 @@ tess::Painter selectable_render(ID_TYPE id, const Selectable& sel, const Context
 	{
 		const float x = pp.x + ctx.style.frame_padding.x;
 		const float y = pp.y + ctx.style.frame_padding.y;
-		render_text(pt, pp.label, x, y, pp.label_sz.y, ctx.style);
+		render_text(*ctx.ctx, pt, pp.label, x, y, pp.label_sz.y, ctx.style);
 	}
 
 	return pt;

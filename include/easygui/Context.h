@@ -11,6 +11,9 @@ namespace egui
 
 struct Context
 {
+    // render
+    ur2::Context* ctx = nullptr;
+
 	// state
 	GuiState     gui;
 	IOState      io;

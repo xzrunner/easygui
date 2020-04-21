@@ -87,7 +87,7 @@ void label(ID_TYPE id, const char* text, float x, float y, Context& ctx, bool fo
 {
 	bool need_render = force_draw || ctx.rbuf.IsRebuilding();
 	if (need_render) {
-		ctx.rbuf.Advance(id, label_render({ { x, y, 0, text } }, ctx.style));
+		ctx.rbuf.Advance(id, label_render(*ctx.ctx, { { x, y, 0, text } }, ctx.style));
 	} else {
 		ctx.rbuf.Advance(id);
 	}

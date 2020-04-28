@@ -23,9 +23,6 @@
     <ProjectReference Include="..\..\..\..\ds\platform\msvc\projects\ds.vcxproj">
       <Project>{e6044d31-8304-4854-99ac-cbef18b9e7d3}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\dtex2\platform\msvc\projects\dtex2.vcxproj">
-      <Project>{a502c49c-7014-4d77-8bd9-b3f917ad34b0}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\emitter\platform\msvc\projects\emitter.vcxproj">
       <Project>{dbef5985-8371-4d60-bde1-0cd58f8017f8}</Project>
     </ProjectReference>
@@ -169,7 +166,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\glp\src\glp;..\..\..\..\sm\src\sm;..\..\..\..\gtxt\src\gtxt;..\..\..\..\unirender2\include;..\..\..\..\tessellation\include;..\..\..\..\renderpipeline\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\dtex2\include;..\..\..\..\serializerx\include;..\..\..\..\facade\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\glp\src\glp;..\..\..\..\sm\src\sm;..\..\..\..\gtxt\src\gtxt;..\..\..\..\unirender2\include;..\..\..\..\tessellation\include;..\..\..\..\renderpipeline\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\serializerx\include;..\..\..\..\facade\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -189,7 +186,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\glp\src\glp;..\..\..\..\sm\src\sm;..\..\..\..\gtxt\src\gtxt;..\..\..\..\unirender2\include;..\..\..\..\tessellation\include;..\..\..\..\renderpipeline\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\dtex2\include;..\..\..\..\serializerx\include;..\..\..\..\facade\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\glp\src\glp;..\..\..\..\sm\src\sm;..\..\..\..\gtxt\src\gtxt;..\..\..\..\unirender2\include;..\..\..\..\tessellation\include;..\..\..\..\renderpipeline\include;..\..\..\..\painting0\include;..\..\..\..\painting2\include;..\..\..\..\serializerx\include;..\..\..\..\facade\include;..\..\..\..\external\gl\include;..\..\..\..\external\glfw\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

@@ -195,13 +195,13 @@ void init_render()
 
 	// rendergraph callback
 	rp::Callback::Funs rg_cb;
-	rg_cb.query_cached_tex_quad = [](size_t tex_id, const sm::irect& r, int& out_tex_id)->const float* {
+	rg_cb.query_cached_tex_quad = [](size_t tex_id, const sm::irect& r, ur2::TexturePtr& out_tex)->const float* {
 		sx::UID uid = sx::ResourceUID::TexQuad(tex_id, r.xmin, r.ymin, r.xmax, r.ymax);
 		int block_id;
-		return facade::DTex::Instance()->QuerySymbol(uid, out_tex_id, block_id);
+		return facade::DTex::Instance()->QuerySymbol(uid, out_tex, block_id);
 	};
-	rg_cb.add_cache_symbol = [](size_t tex_id, int tex_w, int tex_h, const sm::irect& r) {
-		sx::UID uid = sx::ResourceUID::TexQuad(tex_id, r.xmin, r.ymin, r.xmax, r.ymax);
+	rg_cb.add_cache_symbol = [](const ur2::TexturePtr& tex, const sm::irect& r) {
+		sx::UID uid = sx::ResourceUID::TexQuad(tex->, r.xmin, r.ymin, r.xmax, r.ymax);
 		facade::LoadingList::Instance()->AddSymbol(uid, tex_id, tex_w, tex_h, r);
 	};
 	rp::Callback::RegisterCallback(rg_cb);

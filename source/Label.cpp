@@ -7,7 +7,7 @@
 namespace egui
 {
 
-tess::Painter label_render(ur2::Context& ctx, const Label& label, const RenderStyle& rs)
+tess::Painter label_render(ur::Context& ctx, const Label& label, const RenderStyle& rs)
 {
 	tess::Painter pt;
 

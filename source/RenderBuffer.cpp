@@ -1,13 +1,13 @@
 #include "easygui/RenderBuffer.h"
 #include "easygui/Callback.h"
 
-#include <unirender2/DrawState.h>
-#include <unirender2/Device.h>
-#include <unirender2/Context.h>
-#include <unirender2/VertexArray.h>
-#include <unirender2/IndexBuffer.h>
-#include <unirender2/VertexBuffer.h>
-#include <unirender2/VertexBufferAttribute.h>
+#include <unirender/DrawState.h>
+#include <unirender/Device.h>
+#include <unirender/Context.h>
+#include <unirender/VertexArray.h>
+#include <unirender/IndexBuffer.h>
+#include <unirender/VertexBuffer.h>
+#include <unirender/VertexBufferAttribute.h>
 #include <tessellation/Painter.h>
 
 #include <assert.h>
@@ -20,7 +20,7 @@ RenderBuffer::RenderBuffer()
 	m_pt = std::make_shared<tess::Painter>();
 }
 
-void RenderBuffer::Rewind(const ur2::Device& dev)
+void RenderBuffer::Rewind(const ur::Device& dev)
 {
 	m_ptr       = 0;
 	m_vert_off  = 0;
@@ -113,24 +113,24 @@ bool RenderBuffer::Advance(ID_TYPE id, const tess::Painter& pt)
 	return true;
 }
 
-void RenderBuffer::InitVAO(const ur2::Device& dev)
+void RenderBuffer::InitVAO(const ur::Device& dev)
 {
 	if (!m_va) {
 		BuildVAO(dev);
 	}
 }
 
-void RenderBuffer::Draw(ur2::Context& ctx) const
+void RenderBuffer::Draw(ur::Context& ctx) const
 {
 	if (!m_invalid) {
 		m_last_draw_count = m_pt->GetBuffer().indices.size();
 	}
 	if (m_last_draw_count > 0)
     {
-        ur2::DrawState ds;
+        ur::DrawState ds;
         ds.vertex_array = m_va;
 
-        ctx.Draw(ur2::PrimitiveType::Triangles, ds, nullptr);
+        ctx.Draw(ur::PrimitiveType::Triangles, ds, nullptr);
 	}
 }
 
@@ -174,7 +174,7 @@ void RenderBuffer::UpdateVertexBuf()
 	printf("update vbo, vb size %d, eb size %d [%d]\n", buf.vertices.size(), buf.indices.size(), count++);
 }
 
-void RenderBuffer::UpdateVertexBufCheckSize(const ur2::Device& dev)
+void RenderBuffer::UpdateVertexBufCheckSize(const ur::Device& dev)
 {
 	auto& buf = m_pt->GetBuffer();
 	if (buf.vertices.size() > m_last_vbo_sz ||
@@ -186,7 +186,7 @@ void RenderBuffer::UpdateVertexBufCheckSize(const ur2::Device& dev)
 	}
 }
 
-void RenderBuffer::BuildVAO(const ur2::Device& dev)
+void RenderBuffer::BuildVAO(const ur::Device& dev)
 {
     m_va = dev.CreateVertexArray();
 
@@ -196,25 +196,25 @@ void RenderBuffer::BuildVAO(const ur2::Device& dev)
 	auto& buf = pt.GetBuffer();
 
     auto ibuf_sz = sizeof(uint16_t) * buf.indices.size();
-    auto ibuf = dev.CreateIndexBuffer(ur2::BufferUsageHint::StaticDraw, ibuf_sz);
+    auto ibuf = dev.CreateIndexBuffer(ur::BufferUsageHint::StaticDraw, ibuf_sz);
     ibuf->ReadFromMemory(buf.indices.data(), ibuf_sz, 0);
     m_va->SetIndexBuffer(ibuf);
 
     auto vbuf_sz = sizeof(tess::Painter::Vertex) * buf.vertices.size();
-    auto vbuf = dev.CreateVertexBuffer(ur2::BufferUsageHint::StaticDraw, vbuf_sz);
+    auto vbuf = dev.CreateVertexBuffer(ur::BufferUsageHint::StaticDraw, vbuf_sz);
     vbuf->ReadFromMemory(buf.vertices.data(), vbuf_sz, 0);
     m_va->SetVertexBuffer(vbuf);
 
-    std::vector<std::shared_ptr<ur2::VertexBufferAttribute>> vbuf_attrs(3);
+    std::vector<std::shared_ptr<ur::VertexBufferAttribute>> vbuf_attrs(3);
     // pos
-    vbuf_attrs[0] = std::make_shared<ur2::VertexBufferAttribute>(
-        ur2::ComponentDataType::Float, 2, 0, 20);
+    vbuf_attrs[0] = std::make_shared<ur::VertexBufferAttribute>(
+        ur::ComponentDataType::Float, 2, 0, 20);
     // uv
-    vbuf_attrs[1] = std::make_shared<ur2::VertexBufferAttribute>(
-        ur2::ComponentDataType::Float, 2, 8, 20);
+    vbuf_attrs[1] = std::make_shared<ur::VertexBufferAttribute>(
+        ur::ComponentDataType::Float, 2, 8, 20);
     // col
-    vbuf_attrs[2] = std::make_shared<ur2::VertexBufferAttribute>(
-        ur2::ComponentDataType::UnsignedByte, 4, 16, 20);
+    vbuf_attrs[2] = std::make_shared<ur::VertexBufferAttribute>(
+        ur::ComponentDataType::UnsignedByte, 4, 16, 20);
     m_va->SetVertexBufferAttrs(vbuf_attrs);
 
 	m_last_vbo_sz = buf.vertices.size();

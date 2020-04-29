@@ -20,7 +20,7 @@ sm::vec2 Callback::GetLabelSize(const char* label)
 	return FUNS.get_label_sz(label);
 }
 
-void Callback::DrawLabel(ur2::Context& ctx, const char* label, const sm::vec2& pos, float angle, uint32_t color, tess::Painter& pt)
+void Callback::DrawLabel(ur::Context& ctx, const char* label, const sm::vec2& pos, float angle, uint32_t color, tess::Painter& pt)
 {
 	FUNS.draw_label(ctx, label, pos, angle, color, pt);
 }

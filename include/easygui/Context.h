@@ -12,7 +12,7 @@ namespace egui
 struct Context
 {
     // render
-    ur2::Context* ctx = nullptr;
+    ur::Context* ctx = nullptr;
 
 	// state
 	GuiState     gui;
@@ -28,8 +28,8 @@ struct Context
 	// input
 	std::vector<InputEvent> input_events;
 
-	void BeginDraw(const ur2::Device& dev);
-	void EndDraw(const ur2::Device& dev, ur2::Context& ctx);
+	void BeginDraw(const ur::Device& dev);
+	void EndDraw(const ur::Device& dev, ur::Context& ctx);
 
 	void Update(float dt);
 

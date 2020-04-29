@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ur2 { class Context; }
+namespace ur { class Context; }
 namespace tess { class Painter; }
 
 namespace egui
@@ -19,6 +19,6 @@ struct Label
 
 struct RenderStyle;
 
-tess::Painter label_render(ur2::Context& ctx, const Label& label, const RenderStyle& rs);
+tess::Painter label_render(ur::Context& ctx, const Label& label, const RenderStyle& rs);
 
 }

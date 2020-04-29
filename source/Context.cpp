@@ -3,14 +3,14 @@
 namespace egui
 {
 
-void Context::BeginDraw(const ur2::Device& dev)
+void Context::BeginDraw(const ur::Device& dev)
 {
 	m_old_gui = gui;
 
 	rbuf.Rewind(dev);
 }
 
-void Context::EndDraw(const ur2::Device& dev, ur2::Context& ctx)
+void Context::EndDraw(const ur::Device& dev, ur::Context& ctx)
 {
 	rbuf.InitVAO(dev);
 	rbuf.Draw(ctx);

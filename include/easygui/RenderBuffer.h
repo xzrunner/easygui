@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace tess { class Painter; }
-namespace ur2 { class Device; class Context; class VertexArray; }
+namespace ur { class Device; class Context; class VertexArray; }
 
 namespace egui
 {
@@ -18,22 +18,22 @@ class RenderBuffer : boost::noncopyable
 public:
 	RenderBuffer();
 
-	void Rewind(const ur2::Device& dev);
+	void Rewind(const ur::Device& dev);
 	bool Advance(ID_TYPE id);
 	bool Advance(ID_TYPE id, const tess::Painter& pt);
 
 	bool IsRebuilding() const { return m_status == Status::REBUILDING; }
 	bool NeedRebuild() const { return m_status == Status::NEED_REBUILD; }
 
-	void InitVAO(const ur2::Device& dev);
-	void Draw(ur2::Context& ctx) const;
+	void InitVAO(const ur::Device& dev);
+	void Draw(ur::Context& ctx) const;
 
 private:
 	void Rebuild();
 
 	void UpdateVertexBuf();
-	void UpdateVertexBufCheckSize(const ur2::Device& dev);
-	void BuildVAO(const ur2::Device& dev);
+	void UpdateVertexBufCheckSize(const ur::Device& dev);
+	void BuildVAO(const ur::Device& dev);
 
 private:
 	enum class Status
@@ -59,7 +59,7 @@ private:
 
 	Status m_status = Status::NEED_REBUILD;
 
-    std::shared_ptr<ur2::VertexArray> m_va = nullptr;
+    std::shared_ptr<ur::VertexArray> m_va = nullptr;
 
 	bool m_dirty = false;
 

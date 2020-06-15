@@ -205,17 +205,11 @@ void RenderBuffer::BuildVAO(const ur::Device& dev)
     vbuf->ReadFromMemory(buf.vertices.data(), vbuf_sz, 0);
     m_va->SetVertexBuffer(vbuf);
 
-    std::vector<std::shared_ptr<ur::VertexBufferAttribute>> vbuf_attrs(3);
-    // pos
-    vbuf_attrs[0] = std::make_shared<ur::VertexBufferAttribute>(
-        ur::ComponentDataType::Float, 2, 0, 20);
-    // uv
-    vbuf_attrs[1] = std::make_shared<ur::VertexBufferAttribute>(
-        ur::ComponentDataType::Float, 2, 8, 20);
-    // col
-    vbuf_attrs[2] = std::make_shared<ur::VertexBufferAttribute>(
-        ur::ComponentDataType::UnsignedByte, 4, 16, 20);
-    m_va->SetVertexBufferAttrs(vbuf_attrs);
+    m_va->SetVertexBufferAttrs({
+        std::make_shared<ur::VertexBufferAttribute>(0, ur::ComponentDataType::Float,        2, 0, 20),	// pos
+        std::make_shared<ur::VertexBufferAttribute>(1, ur::ComponentDataType::Float,        2, 8, 20),	// uv
+		std::make_shared<ur::VertexBufferAttribute>(2, ur::ComponentDataType::UnsignedByte, 4, 16, 20)	// col
+    });
 
 	m_last_vbo_sz = buf.vertices.size();
 	m_last_ebo_sz = buf.indices.size();

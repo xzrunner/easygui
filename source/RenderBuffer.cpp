@@ -7,7 +7,7 @@
 #include <unirender/VertexArray.h>
 #include <unirender/IndexBuffer.h>
 #include <unirender/VertexBuffer.h>
-#include <unirender/VertexBufferAttribute.h>
+#include <unirender/VertexInputAttribute.h>
 #include <tessellation/Painter.h>
 
 #include <assert.h>
@@ -206,9 +206,9 @@ void RenderBuffer::BuildVAO(const ur::Device& dev)
     m_va->SetVertexBuffer(vbuf);
 
     m_va->SetVertexBufferAttrs({
-        std::make_shared<ur::VertexBufferAttribute>(0, ur::ComponentDataType::Float,        2, 0, 20),	// pos
-        std::make_shared<ur::VertexBufferAttribute>(1, ur::ComponentDataType::Float,        2, 8, 20),	// uv
-		std::make_shared<ur::VertexBufferAttribute>(2, ur::ComponentDataType::UnsignedByte, 4, 16, 20)	// col
+        std::make_shared<ur::VertexInputAttribute>(0, ur::ComponentDataType::Float,        2, 0, 20),	// pos
+        std::make_shared<ur::VertexInputAttribute>(1, ur::ComponentDataType::Float,        2, 8, 20),	// uv
+		std::make_shared<ur::VertexInputAttribute>(2, ur::ComponentDataType::UnsignedByte, 4, 16, 20)	// col
     });
 
 	m_last_vbo_sz = buf.vertices.size();

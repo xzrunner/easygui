@@ -2,7 +2,6 @@ easygui/
 egui_test/
 projects/*
 
-!projects/easygui.vcxproj
-!projects/easygui.vcxproj.filters
-!projects/egui_test.vcxproj
-!projects/egui_test.vcxproj.filters
+!*.vcxproj
+!*.vcxproj.filters
+!*.vcxproj.user

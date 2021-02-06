@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\Window.cpp">
+      <Filter>widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Utility.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Callback.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EntityFactory.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\System.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ImGui.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Button.cpp">
+      <Filter>widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RadioButton.cpp">
+      <Filter>widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ArrowButton.cpp">
+      <Filter>widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderStyle.cpp">
+      <Filter>dataset\config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderBuffer.cpp">
+      <Filter>dataset\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Combo.cpp">
+      <Filter>widgets\list</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Slider.cpp">
+      <Filter>widgets\list</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Label.cpp">
+      <Filter>widgets\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Selectable.cpp">
+      <Filter>widgets\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Checkbox.cpp">
+      <Filter>widgets\button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\IOState.cpp">
+      <Filter>dataset\state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Context.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\easygui\Window.h">
+      <Filter>widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Entity.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Utility.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Callback.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\typedef.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\CompType.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\CompStorage.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\EntityFactory.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\System.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\ImGui.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Button.h">
+      <Filter>widgets\button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\RadioButton.h">
+      <Filter>widgets\button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\ArrowButton.h">
+      <Filter>widgets\button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\IOState.h">
+      <Filter>dataset\state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\RenderStyle.h">
+      <Filter>dataset\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\UpdateConfig.h">
+      <Filter>dataset\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\InputEvent.h">
+      <Filter>dataset\state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\GuiState.h">
+      <Filter>dataset\state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Context.h">
+      <Filter>dataset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\RenderBuffer.h">
+      <Filter>dataset\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Combo.h">
+      <Filter>widgets\list</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Slider.h">
+      <Filter>widgets\list</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Label.h">
+      <Filter>widgets\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Selectable.h">
+      <Filter>widgets\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Checkbox.h">
+      <Filter>widgets\button</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="widgets">
+      <UniqueIdentifier>{993305d0-9e20-484e-84a7-a705cfae869d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs">
+      <UniqueIdentifier>{f10ad83f-1fbe-4dd6-98e3-234434fd812a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{90b0b551-e909-47f8-a38e-99c0a23affe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset">
+      <UniqueIdentifier>{64a69e00-96de-4df5-96ef-d1bf7df44e61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="widgets\button">
+      <UniqueIdentifier>{e0e12699-27ce-4067-a8e3-56806ce125d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\state">
+      <UniqueIdentifier>{a395cbcf-9b95-4c97-85d9-cb7200268988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\config">
+      <UniqueIdentifier>{6904185b-3eeb-4f85-af39-976fccb5a6e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\render">
+      <UniqueIdentifier>{df4e1ca2-e9ca-4e49-aa03-a9474cbc4ca3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="widgets\list">
+      <UniqueIdentifier>{ced72099-c47b-45b9-a702-581a74708832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="widgets\text">
+      <UniqueIdentifier>{82ab33e3-a450-4278-9784-0f4af7d3f915}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

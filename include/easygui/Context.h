@@ -29,7 +29,8 @@ struct Context
 	std::vector<InputEvent> input_events;
 
 	void BeginDraw(const ur::Device& dev);
-	void EndDraw(const ur::Device& dev, ur::Context& ctx);
+	void EndDraw(const ur::Device& dev, ur::Context& ctx, 
+		const std::shared_ptr<ur::ShaderProgram>& shader);
 
 	void Update(float dt);
 

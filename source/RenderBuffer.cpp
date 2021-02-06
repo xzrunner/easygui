@@ -8,6 +8,7 @@
 #include <unirender/IndexBuffer.h>
 #include <unirender/VertexBuffer.h>
 #include <unirender/VertexInputAttribute.h>
+#include <unirender/Factory.h>
 #include <tessellation/Painter.h>
 
 #include <assert.h>
@@ -120,7 +121,7 @@ void RenderBuffer::InitVAO(const ur::Device& dev)
 	}
 }
 
-void RenderBuffer::Draw(ur::Context& ctx) const
+void RenderBuffer::Draw(ur::Context& ctx, const std::shared_ptr<ur::ShaderProgram>& shader) const
 {
 	if (!m_invalid) {
 		m_last_draw_count = m_pt->GetBuffer().indices.size();
@@ -128,7 +129,9 @@ void RenderBuffer::Draw(ur::Context& ctx) const
 	if (m_last_draw_count > 0)
     {
         ur::DrawState ds;
+		ds.render_state = ur::DefaultRenderState2D();
         ds.vertex_array = m_va;
+		ds.program = shader;
 
         ctx.Draw(ur::PrimitiveType::Triangles, ds, nullptr);
 	}

@@ -10,11 +10,11 @@ void Context::BeginDraw(const ur::Device& dev)
 	rbuf.Rewind(dev);
 }
 
-void Context::EndDraw(const ur::Device& dev, ur::Context& ctx)
+void Context::EndDraw(const ur::Device& dev, ur::Context& ctx,
+	                  const std::shared_ptr<ur::ShaderProgram>& shader)
 {
 	rbuf.InitVAO(dev);
-	rbuf.Draw(ctx);
-
+	rbuf.Draw(ctx, shader);
 	if (rbuf.NeedRebuild()) {
 		gui = m_old_gui;
 	}

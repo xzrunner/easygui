@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace tess { class Painter; }
-namespace ur { class Device; class Context; class VertexArray; }
+namespace ur { class Device; class Context; class VertexArray; class ShaderProgram; }
 
 namespace egui
 {
@@ -26,7 +26,7 @@ public:
 	bool NeedRebuild() const { return m_status == Status::NEED_REBUILD; }
 
 	void InitVAO(const ur::Device& dev);
-	void Draw(ur::Context& ctx) const;
+	void Draw(ur::Context& ctx, const std::shared_ptr<ur::ShaderProgram>& shader) const;
 
 private:
 	void Rebuild();

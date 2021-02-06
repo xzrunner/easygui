@@ -3,14 +3,14 @@
 #include "easygui/CompType.h"
 #include "easygui/Entity.h"
 
-#include <boost/noncopyable.hpp>
+#include <unirender/noncopyable.h>
 
 #include <array>
 
 namespace egui
 {
 
-class EntityFactory : boost::noncopyable
+class EntityFactory : ur::noncopyable
 {
 public:
 	EntityFactory();

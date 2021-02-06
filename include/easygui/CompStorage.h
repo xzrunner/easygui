@@ -1,13 +1,13 @@
 #pragma once
 
-#include <boost/noncopyable.hpp>
+#include <unirender/noncopyable.h>
 
 #include <unordered_map>
 
 namespace egui
 {
 
-class CompStorage : boost::noncopyable
+class CompStorage : ur::noncopyable
 {
 public:
 	void Add(ID_TYPE id, void* data) {

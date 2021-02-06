@@ -2,7 +2,7 @@
 
 #include "easygui/typedef.h"
 
-#include <boost/noncopyable.hpp>
+#include <unirender/noncopyable.h>
 
 #include <memory>
 #include <vector>
@@ -13,7 +13,7 @@ namespace ur { class Device; class Context; class VertexArray; }
 namespace egui
 {
 
-class RenderBuffer : boost::noncopyable
+class RenderBuffer : ur::noncopyable
 {
 public:
 	RenderBuffer();

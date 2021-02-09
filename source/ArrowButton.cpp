@@ -2,8 +2,6 @@
 #include "easygui/Utility.h"
 #include "easygui/Context.h"
 
-#include <tessellation/Painter.h>
-
 namespace egui
 {
 
@@ -18,7 +16,7 @@ ArrowButton::State arrow_button_update(ID_TYPE id, const ArrowButton& ab, const 
 
 tess::Painter arrow_button_render(ID_TYPE id, const ArrowButton& ab, const Context& ctx)
 {
-	tess::Painter pt;
+	auto pt = ctx.NewPainter();
 
 	auto& pp = ab.props;
 

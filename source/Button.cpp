@@ -4,8 +4,6 @@
 #include "easygui/Utility.h"
 #include "easygui/Context.h"
 
-#include <tessellation/Painter.h>
-
 namespace
 {
 
@@ -33,7 +31,7 @@ Button::State button_update(ID_TYPE id, const Button& btn, const Context& ctx)
 
 tess::Painter button_render(ID_TYPE id, const Button& btn, const Context& ctx)
 {
-	tess::Painter pt;
+	auto pt = ctx.NewPainter();
 
 	auto& pp = btn.props;
 

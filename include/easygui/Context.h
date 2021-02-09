@@ -6,6 +6,8 @@
 #include "easygui/UpdateConfig.h"
 #include "easygui/RenderBuffer.h"
 
+#include <tessellation/Painter.h>
+
 namespace egui
 {
 
@@ -34,8 +36,16 @@ struct Context
 
 	void Update(float dt);
 
+	tess::Painter NewPainter() const;
+
+	void SetPalette(const std::shared_ptr<tess::Palette>& palette) {
+		m_palette = palette;
+	}
+
 private:
 	GuiState m_old_gui;
+
+	std::shared_ptr<tess::Palette> m_palette = nullptr;
 
 };
 

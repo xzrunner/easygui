@@ -3,7 +3,6 @@
 #include "easygui/Context.h"
 
 #include <SM_Rect.h>
-#include <tessellation/Painter.h>
 
 namespace
 {
@@ -37,7 +36,7 @@ Selectable::State selectable_update(ID_TYPE id, const Selectable& sel, const Con
 
 tess::Painter selectable_render(ID_TYPE id, const Selectable& sel, const Context& ctx)
 {
-	tess::Painter pt;
+	auto pt = ctx.NewPainter();
 
 	auto& pp = sel.props;
 

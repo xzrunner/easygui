@@ -2,8 +2,6 @@
 #include "easygui/Utility.h"
 #include "easygui/Context.h"
 
-#include <tessellation/Painter.h>
-
 namespace
 {
 
@@ -31,7 +29,7 @@ RadioButton::State radio_button_update(ID_TYPE id, const RadioButton& rb, const 
 
 tess::Painter radio_button_render(ID_TYPE id, const RadioButton& rb, const Context& ctx)
 {
-	tess::Painter pt;
+	auto pt = ctx.NewPainter();
 
 	auto& pp = rb.props;
 

@@ -12,8 +12,6 @@
 #include "easygui/ArrowButton.h"
 #include "easygui/Combo.h"
 
-#include <tessellation/Painter.h>
-
 namespace
 {
 

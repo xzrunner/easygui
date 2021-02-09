@@ -2,7 +2,6 @@
 #include "easygui/Utility.h"
 #include "easygui/Context.h"
 
-#include <tessellation/Painter.h>
 #include <primitive/Path.h>
 
 namespace
@@ -53,7 +52,7 @@ Checkbox::State checkbox_update(ID_TYPE id, const Checkbox& cbox, const Context&
 
 tess::Painter checkbox_render(ID_TYPE id, const Checkbox& cbox, const Context& ctx)
 {
-	tess::Painter pt;
+	auto pt = ctx.NewPainter();
 
 	auto sz = calc_tot_sz(cbox.props.label_sz, ctx.style);
 

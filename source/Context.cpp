@@ -35,4 +35,13 @@ void Context::Update(float dt)
 	}
 }
 
+tess::Painter Context::NewPainter() const
+{
+	auto pt = tess::Painter();
+	if (m_palette) {
+		pt.SetPalette(m_palette);
+	}
+	return pt;
+}
+
 }

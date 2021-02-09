@@ -3,8 +3,6 @@
 #include "easygui/Callback.h"
 #include "easygui/Context.h"
 
-#include <tessellation/Painter.h>
-
 #include <sstream>
 #include <iomanip>
 
@@ -66,7 +64,7 @@ Slider::State slider_update(ID_TYPE id, const Slider& slide, const Context& ctx)
 
 tess::Painter slider_render(ID_TYPE id, const Slider& slide, const Context& ctx)
 {
-	tess::Painter pt;
+	auto pt = ctx.NewPainter();
 
 	auto& pp = slide.props;
 

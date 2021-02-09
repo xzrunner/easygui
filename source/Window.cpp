@@ -4,8 +4,6 @@
 #include "easygui/System.h"
 #include "easygui/Context.h"
 
-#include <tessellation/Painter.h>
-
 #include <assert.h>
 
 namespace egui
@@ -25,7 +23,7 @@ Window::State window_update(ID_TYPE id, const Window& wnd, const Context& ctx, c
 
 tess::Painter window_render(ID_TYPE id, const Window& wnd, const Context& ctx, const CompStorage& storage)
 {
-	tess::Painter pt;
+	auto pt = ctx.NewPainter();
 	for (auto& c : wnd.comp.children) {
 		pt.AddPainter(System::Render(c, ctx, storage));
 	}

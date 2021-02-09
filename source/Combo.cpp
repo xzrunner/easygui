@@ -4,8 +4,6 @@
 #include "easygui/Utility.h"
 #include "easygui/Selectable.h"
 
-#include <tessellation/Painter.h>
-
 namespace
 {
 
@@ -119,7 +117,7 @@ Combo::State combo_update(ID_TYPE id, const Combo& com, const Context& ctx)
 
 tess::Painter combo_render(ID_TYPE id, const Combo& com, const Context& ctx)
 {
-	tess::Painter pt;
+	auto pt = ctx.NewPainter();
 
 	auto& pp = com.props;
 

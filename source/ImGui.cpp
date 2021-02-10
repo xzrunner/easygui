@@ -3,6 +3,7 @@
 #include "easygui/Callback.h"
 #include "easygui/Context.h"
 
+#include "easygui/Frame.h"
 #include "easygui/Button.h"
 #include "easygui/Slider.h"
 #include "easygui/Label.h"
@@ -24,6 +25,13 @@ bool need_render(egui::ID_TYPE id, const egui::Context& ctx, const egui::GuiStat
 
 namespace egui
 {
+
+void frame(ID_TYPE id, float x, float y, float width, float height, 
+	       Context& ctx, bool force_draw)
+{
+	Frame frame({ x, y, width, height });
+	ctx.rbuf.Advance(id, frame_render(id, frame, ctx));
+}
 
 bool button(ID_TYPE id, const char* label, float x, float y, float width, float height,
 	        Context& ctx, bool force_draw)

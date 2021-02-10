@@ -7,6 +7,8 @@ namespace egui
 
 struct Context;
 
+void frame(ID_TYPE id, float x, float y, float width, float height, Context& ctx, bool force_draw = false);
+
 bool button(ID_TYPE id, const char* label, float x, float y, float width, float height,
 	        Context& ctx, bool force_draw = false);
 

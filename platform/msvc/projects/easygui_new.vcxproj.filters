@@ -55,6 +55,9 @@
     <ClCompile Include="..\..\..\source\Context.cpp">
       <Filter>dataset</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\Frame.cpp">
+      <Filter>widgets\frame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\easygui\Window.h">
@@ -132,6 +135,9 @@
     <ClInclude Include="..\..\..\include\easygui\Checkbox.h">
       <Filter>widgets\button</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\easygui\Frame.h">
+      <Filter>widgets\frame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="widgets">
@@ -163,6 +169,9 @@
     </Filter>
     <Filter Include="widgets\text">
       <UniqueIdentifier>{82ab33e3-a450-4278-9784-0f4af7d3f915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="widgets\frame">
+      <UniqueIdentifier>{7492cba7-4cc5-42f4-9943-8b5994aeb399}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

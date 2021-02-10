@@ -29,6 +29,7 @@
     <ClInclude Include="..\..\..\include\easygui\Context.h" />
     <ClInclude Include="..\..\..\include\easygui\Entity.h" />
     <ClInclude Include="..\..\..\include\easygui\EntityFactory.h" />
+    <ClInclude Include="..\..\..\include\easygui\Frame.h" />
     <ClInclude Include="..\..\..\include\easygui\GuiState.h" />
     <ClInclude Include="..\..\..\include\easygui\ImGui.h" />
     <ClInclude Include="..\..\..\include\easygui\InputEvent.h" />
@@ -53,6 +54,7 @@
     <ClCompile Include="..\..\..\source\Combo.cpp" />
     <ClCompile Include="..\..\..\source\Context.cpp" />
     <ClCompile Include="..\..\..\source\EntityFactory.cpp" />
+    <ClCompile Include="..\..\..\source\Frame.cpp" />
     <ClCompile Include="..\..\..\source\ImGui.cpp" />
     <ClCompile Include="..\..\..\source\IOState.cpp" />
     <ClCompile Include="..\..\..\source\Label.cpp" />

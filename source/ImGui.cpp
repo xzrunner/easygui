@@ -45,11 +45,11 @@ bool button(ID_TYPE id, const char* label, float x, float y, float width, float 
 		ctx.rbuf.Advance(id);
 	}
 
-	if (!render_fail) {
+	//if (!render_fail) {
 		if (st.event == MouseEvent::DOWN) {
 			clicked = true;
 		}
-	}
+	//}
 
 	return clicked;
 }
@@ -74,9 +74,9 @@ bool slider(ID_TYPE id, const char* label, float* val, float x, float y, float h
 		ctx.rbuf.Advance(id);
 	}
 
-	if (!render_fail) {
+	//if (!render_fail) {
 		*val = st.value;
-	}
+	//}
 
     return *val != old_val;
 }
@@ -93,6 +93,8 @@ void label(ID_TYPE id, const char* text, float x, float y, Context& ctx, bool fo
 
 bool selectable(ID_TYPE id, const char* label, bool* val, float x, float y, float length, Context& ctx, bool force_draw)
 {
+	bool old_val = *val;
+
 	Selectable sel({ { x, y, length, label, Callback::GetLabelSize(label) }, { *val } });
 	auto st = selectable_update(id, sel, ctx);
 
@@ -108,15 +110,17 @@ bool selectable(ID_TYPE id, const char* label, bool* val, float x, float y, floa
 		ctx.rbuf.Advance(id);
 	}
 
-	if (!render_fail) {
+	//if (!render_fail) {
 		*val = st.value;
-	}
+	//}
 
-	return *val != sel.state.value;
+	return *val != old_val;
 }
 
 bool checkbox(ID_TYPE id, const char* label, bool* val, float x, float y, Context& ctx, bool force_draw)
 {
+	bool old_val = *val;
+
 	Checkbox cbox({ { x, y, label, Callback::GetLabelSize(label) }, { *val } });
 	auto st = checkbox_update(id, cbox, ctx);
 
@@ -132,11 +136,11 @@ bool checkbox(ID_TYPE id, const char* label, bool* val, float x, float y, Contex
 		ctx.rbuf.Advance(id);
 	}
 
-	if (!render_fail) {
+	//if (!render_fail) {
 		*val = st.value;
-	}
+	//}
 
-	return *val != cbox.state.value;
+	return *val != old_val;
 }
 
 bool radio_button(ID_TYPE id, const char* label, bool val, float x, float y, Context& ctx, bool force_draw)
@@ -158,11 +162,11 @@ bool radio_button(ID_TYPE id, const char* label, bool val, float x, float y, Con
 		ctx.rbuf.Advance(id);
 	}
 
-	if (!render_fail) {
+	//if (!render_fail) {
 		if (st.event == MouseEvent::DOWN) {
 			selected = true;
 		}
-	}
+	//}
 
 	return selected;
 }
@@ -221,13 +225,12 @@ bool combo(ID_TYPE id, const char* label, int* curr_item, const char** const ite
 		ctx.rbuf.Advance(id);
 	}
 
-	if (!render_fail)
+	//if (!render_fail)
 	{
 		*curr_item = st.selected_item;
 		if (ctx.gui.GetPopupItem() != id && st.popup) {
 			ctx.gui.SetPopupItem(id);
-		}
-		else if (ctx.gui.GetPopupItem() == id && !st.popup) {
+		} else if (ctx.gui.GetPopupItem() == id && !st.popup) {
 			ctx.gui.SetPopupItem(0);
 		}
 	}

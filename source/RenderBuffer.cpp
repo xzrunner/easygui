@@ -206,6 +206,10 @@ void RenderBuffer::UpdateVertexBufCheckSize(const ur::Device& dev)
 
 void RenderBuffer::BuildVAO(const ur::Device& dev)
 {
+	if (m_pt->IsEmpty()) {
+		return;
+	}
+
     m_va = dev.CreateVertexArray();
 
 	tess::Painter pt(*m_pt);

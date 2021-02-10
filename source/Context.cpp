@@ -15,9 +15,9 @@ void Context::EndDraw(const ur::Device& dev, ur::Context& ctx,
 {
 	rbuf.InitVAO(dev);
 	rbuf.Draw(ctx, shader);
-	if (rbuf.NeedRebuild()) {
-		gui = m_old_gui;
-	}
+	//if (rbuf.NeedRebuild()) {
+	//	gui = m_old_gui;
+	//}
 }
 
 void Context::Update(float dt)
@@ -29,7 +29,6 @@ void Context::Update(float dt)
 
 	if (!rbuf.NeedRebuild())
 	{
-		io.Clear();
 		io = io.FeedEvent(input_events);
 		input_events.clear();
 	}

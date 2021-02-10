@@ -80,37 +80,29 @@ void render_arrow(tess::Painter& pt, const sm::vec2& min, float height, Directio
 MouseEvent calc_mouse_event(const GuiState& gui_st, const IOState& io_st, ID_TYPE id, float x, float y, float w, float h)
 {
 	MouseEvent st = MouseEvent::NONE;
-
-	bool hot = false;
-	bool hit = false;
-	if (region_hit(io_st, x, y, w, h))
-	{
-		hot = true;
-		if (io_st.IsMouseDown()) {
-			hit = true;
-		}
-	}
-	else
-	{
+	if (!region_hit(io_st, x, y, w, h)) {
 		return st;
 	}
 
 	st = MouseEvent::HOVER;
-	if (io_st.IsMouseDown() && hit)
+	if (io_st.IsMouseDown())
 	{
-		if (io_st.IsMouseClick()) {
+		if (io_st.GetClickTime() == 0) {
 			st = MouseEvent::DOWN;
 		} else {
 			st = MouseEvent::HOLD;
 		}
+		io_st.SetClickTime(io_st.GetClickTime() + 1);
 	}
-	else if (!io_st.IsMouseDown() && !hit)
+	else
 	{
-		if (io_st.IsMouseClick()) {
+		if (io_st.GetFirstPos() == sm::ivec2(io_st.GetMouseX(), io_st.GetMouseY())) {
 			st = MouseEvent::CLICK;
+			io_st.ResetFirstPos();
 		} else {
 			st = MouseEvent::UP;
 		}
+		io_st.SetClickTime(0);
 	}
 
 	return st;

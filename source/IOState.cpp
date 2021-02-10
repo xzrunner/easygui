@@ -3,6 +3,11 @@
 namespace egui
 {
 
+IOState::IOState()
+{
+	m_first_pos.MakeInvalid();
+}
+
 IOState IOState::FeedEvent(const std::vector<InputEvent>& events) const
 {
 	IOState st = *this;
@@ -32,7 +37,8 @@ IOState IOState::FeedEvent(const std::vector<InputEvent>& events) const
 							   (e.type == InputType::MOUSE_RIGHT_DOWN) ||
 							   (e.type == InputType::MOUSE_DRAG);
 			if (!m_mouse_down && st.m_mouse_down) {
-				st.m_mouse_click = true;
+				st.m_first_pos.x = e.mouse.x;
+				st.m_first_pos.y = e.mouse.y;
 			}
 			break;
 		}

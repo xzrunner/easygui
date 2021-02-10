@@ -176,15 +176,20 @@ void RenderBuffer::UpdateVertexBuf()
         return;
     }
 
-    m_va->GetVertexBuffer()->ReadFromMemory(
-        buf.vertices.data(), buf.vertices.size() * sizeof(tess::Painter::Vertex), 0
-    );
-    m_va->GetIndexBuffer()->ReadFromMemory(
-        buf.indices.data(), buf.indices.size() * sizeof(unsigned short), 0
-    );
+	auto ibuf_sz = sizeof(unsigned short) * buf.indices.size();
+	auto ibuf = m_va->GetIndexBuffer();
+	ibuf->Reset(ibuf_sz);
+	ibuf->ReadFromMemory(buf.indices.data(), ibuf_sz, 0);
+	m_va->SetIndexBuffer(ibuf);
 
-	static int count = 0;
-	printf("update vbo, vb size %d, eb size %d [%d]\n", buf.vertices.size(), buf.indices.size(), count++);
+	auto vbuf_sz = sizeof(tess::Painter::Vertex) * buf.vertices.size();
+	auto vbuf = m_va->GetVertexBuffer();
+	vbuf->Reset(vbuf_sz);
+	vbuf->ReadFromMemory(buf.vertices.data(), vbuf_sz, 0);
+	m_va->SetVertexBuffer(vbuf);
+
+	//static int count = 0;
+	//printf("update vbo, vb size %d, eb size %d [%d]\n", buf.vertices.size(), buf.indices.size(), count++);
 }
 
 void RenderBuffer::UpdateVertexBufCheckSize(const ur::Device& dev)

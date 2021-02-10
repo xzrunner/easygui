@@ -38,9 +38,7 @@ struct Context
 
 	tess::Painter NewPainter() const;
 
-	void SetPalette(const std::shared_ptr<tess::Palette>& palette) {
-		m_palette = palette;
-	}
+	void SetPalette(const std::shared_ptr<tess::Palette>& palette);
 
 private:
 	GuiState m_old_gui;

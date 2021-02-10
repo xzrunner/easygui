@@ -43,4 +43,11 @@ tess::Painter Context::NewPainter() const
 	return pt;
 }
 
+void Context::SetPalette(const std::shared_ptr<tess::Palette>& palette) 
+{
+	m_palette = palette;
+
+	rbuf.GetPainter()->SetPalette(palette);
+}
+
 }

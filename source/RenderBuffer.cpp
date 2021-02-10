@@ -10,6 +10,7 @@
 #include <unirender/VertexInputAttribute.h>
 #include <unirender/Factory.h>
 #include <tessellation/Painter.h>
+#include <tessellation/Palette.h>
 
 #include <assert.h>
 
@@ -128,6 +129,15 @@ void RenderBuffer::Draw(ur::Context& ctx, const std::shared_ptr<ur::ShaderProgra
 	}
 	if (m_last_draw_count > 0)
     {
+		auto palette = m_pt->GetPalette();
+		if (palette) {
+			auto tex = palette->GetRelocatedTex();
+			if (!tex) {
+				tex = palette->GetTexture();
+			}
+			ctx.SetTexture(0, tex);
+		}
+
         ur::DrawState ds;
 		ds.render_state = ur::DefaultRenderState2D();
         ds.vertex_array = m_va;

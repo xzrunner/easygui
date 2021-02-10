@@ -28,6 +28,8 @@ public:
 	void InitVAO(const ur::Device& dev);
 	void Draw(ur::Context& ctx, const std::shared_ptr<ur::ShaderProgram>& shader) const;
 
+	auto GetPainter() const { return m_pt; }
+
 private:
 	void Rebuild();
 

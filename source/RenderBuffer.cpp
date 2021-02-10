@@ -149,8 +149,8 @@ void RenderBuffer::Draw(ur::Context& ctx, const std::shared_ptr<ur::ShaderProgra
 
 void RenderBuffer::Rebuild()
 {
-	static int count = 0;
-	printf("rebuild [%d]\n", count++);
+	//static int count = 0;
+	//printf("rebuild [%d]\n", count++);
 
 	m_pt->Clear();
 
@@ -236,9 +236,9 @@ void RenderBuffer::BuildVAO(const ur::Device& dev)
 	m_last_vbo_sz = buf.vertices.size();
 	m_last_ebo_sz = buf.indices.size();
 
-	static int count = 0;
-	printf("create vb size %d, eb size %d [%d]\n",
-        buf.vertices.size(), buf.indices.size(), count++);
+	//static int count = 0;
+	//printf("create vb size %d, eb size %d [%d]\n",
+	//	buf.vertices.size(), buf.indices.size(), count++);
 }
 
 }

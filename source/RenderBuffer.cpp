@@ -178,13 +178,14 @@ void RenderBuffer::UpdateVertexBuf()
 
 	auto ibuf_sz = sizeof(unsigned short) * buf.indices.size();
 	auto ibuf = m_va->GetIndexBuffer();
-	ibuf->Reset(ibuf_sz);
+	ibuf->SetCount(buf.indices.size());
+	ibuf->Reserve(ibuf_sz);
 	ibuf->ReadFromMemory(buf.indices.data(), ibuf_sz, 0);
 	m_va->SetIndexBuffer(ibuf);
 
 	auto vbuf_sz = sizeof(tess::Painter::Vertex) * buf.vertices.size();
 	auto vbuf = m_va->GetVertexBuffer();
-	vbuf->Reset(vbuf_sz);
+	vbuf->Reserve(vbuf_sz);
 	vbuf->ReadFromMemory(buf.vertices.data(), vbuf_sz, 0);
 	m_va->SetVertexBuffer(vbuf);
 

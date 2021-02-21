@@ -30,6 +30,8 @@ struct Context
 	// input
 	std::vector<InputEvent> input_events;
 
+	Context(const std::shared_ptr<tess::Palette>& palette);
+
 	void BeginDraw(const ur::Device& dev);
 	void EndDraw(const ur::Device& dev, ur::Context& ctx, 
 		const std::shared_ptr<ur::ShaderProgram>& shader);
@@ -37,8 +39,6 @@ struct Context
 	void Update(float dt);
 
 	tess::Painter NewPainter() const;
-
-	void SetPalette(const std::shared_ptr<tess::Palette>& palette);
 
 private:
 	GuiState m_old_gui;

@@ -3,6 +3,14 @@
 namespace egui
 {
 
+Context::Context(const std::shared_ptr<tess::Palette>& palette)
+	: m_palette(palette)
+{
+	rbuf.GetPainter()->SetPalette(palette);
+
+	style_colors_dark(style);
+}
+
 void Context::BeginDraw(const ur::Device& dev)
 {
 	m_old_gui = gui;
@@ -41,13 +49,6 @@ tess::Painter Context::NewPainter() const
 		pt.SetPalette(m_palette);
 	}
 	return pt;
-}
-
-void Context::SetPalette(const std::shared_ptr<tess::Palette>& palette) 
-{
-	m_palette = palette;
-
-	rbuf.GetPainter()->SetPalette(palette);
 }
 
 }

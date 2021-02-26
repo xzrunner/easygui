@@ -30,9 +30,9 @@ public:
 
 	auto GetPainter() const { return m_pt; }
 
-private:
 	void Rebuild();
 
+private:
 	void UpdateVertexBuf();
 	void UpdateVertexBufCheckSize(const ur::Device& dev);
 	void BuildVAO(const ur::Device& dev);

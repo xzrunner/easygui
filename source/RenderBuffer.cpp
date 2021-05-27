@@ -136,6 +136,7 @@ void RenderBuffer::Draw(ur::Context& ctx, const std::shared_ptr<ur::ShaderProgra
 				tex = palette->GetTexture();
 			}
 			ctx.SetTexture(0, tex);
+			ctx.SetTextureSampler(0, nullptr);
 		}
 
         ur::DrawState ds;

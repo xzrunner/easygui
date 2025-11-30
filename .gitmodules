@@ -1,0 +1,12 @@
+[submodule "third_party/sm"]
+	path = third_party/sm
+	url = git@github.com:xzrunner/sm.git
+[submodule "third_party/unirender"]
+	path = third_party/unirender
+	url = git@github.com:xzrunner/unirender.git
+[submodule "third_party/tessellation"]
+	path = third_party/tessellation
+	url = git@github.com:xzrunner/tessellation.git
+[submodule "third_party/primitive"]
+	path = third_party/primitive
+	url = git@github.com:xzrunner/primitive.git

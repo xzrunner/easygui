@@ -1,7 +1,0 @@
-easygui/
-egui_test/
-projects/*
-
-!*.vcxproj
-!*.vcxproj.filters
-!*.vcxproj.user

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.16)
 
 project(easygui)
 
@@ -114,21 +114,15 @@ set(ALL_FILES
     ${widgets__text}
 )
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/sm)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/unirender/include)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/tessellation/include)
-include_directories(${CMAKE_SOURCE_DIR}/third_party/primitive/include)
-
 add_library(easygui STATIC ${ALL_FILES})
+
+target_include_directories(${PROJECT_NAME} PRIVATE include third_party/sm third_party/unirender/include third_party/tessellation/include third_party/primitive/include)
 
 if(EASYGUI_BUILD_TESTS)
     set(TEST_FILES
         "test/main.cpp"
     )
 
-    include_directories(${CMAKE_SOURCE_DIR}/third_party/unirender/include)
-
     add_executable(easygui-test ${TEST_FILES})
-    target_include_directories(easygui-test PRIVATE "third_party/unirender/include")
+    target_include_directories(easygui-test PRIVATE include third_party/sm third_party/unirender/include third_party/tessellation/include)
 endif()
